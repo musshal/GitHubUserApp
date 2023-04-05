@@ -2,4 +2,10 @@
     <string name="app_name">Github User\'s Search</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="setting">Setting</string>
+    <string name="username">Username</string>
+    <string name="bio">Bio</string>
+    <string name="location">Location</string>
+    <string name="repositories">Repositories</string>
+    <string name="followers">Followers</string>
+    <string name="name">Name</string>
 </resources>
