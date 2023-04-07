@@ -1,5 +1,6 @@
 package com.dicoding.githubuserapp
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,7 @@ class GithubUsersAdapter(private val listGithubUsers: ArrayList<GithubUsersRespo
             .into(holder.civGithubUser)
 
         holder.tvGithubUsername.text = listGithubUsers[position].login
+        holder.bind(listGithubUsers[position])
     }
 
     override fun getItemCount(): Int = listGithubUsers.size
@@ -33,7 +35,14 @@ class GithubUsersAdapter(private val listGithubUsers: ArrayList<GithubUsersRespo
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val civGithubUser: CircleImageView = view.findViewById(R.id.civ_github_user)
         val tvGithubUsername: TextView = view.findViewById(R.id.tv_github_username)
-        val tvGithubLocation: TextView = view.findViewById(R.id.tv_github_location)
+
+        fun bind(githubUser: GithubUsersResponseItem) {
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, DetailActivity::class.java)
+                intent.putExtra(DetailActivity.KEY_GITHUB_USER, githubUser)
+                itemView.context.startActivity(intent)
+            }
+        }
     }
 
     fun setData(data: ArrayList<GithubUsersResponseItem>) {

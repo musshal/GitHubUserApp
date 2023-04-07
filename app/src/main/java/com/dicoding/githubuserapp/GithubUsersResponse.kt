@@ -1,7 +1,15 @@
 package com.dicoding.githubuserapp
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+data class GithubUsersResponse(
+	@field:SerializedName("items")
+	val githubUsersResponseItem: ArrayList<GithubUsersResponseItem>
+)
+
+@Parcelize
 data class GithubUsersResponseItem(
 
 	@field:SerializedName("avatar_url")
@@ -24,4 +32,4 @@ data class GithubUsersResponseItem(
 
 	@field:SerializedName("url")
 	val url: String
-)
+) : Parcelable

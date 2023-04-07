@@ -15,8 +15,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: GithubUsersAdapter
+
     companion object {
         private const val TAG = "MainActivity"
+        private const val GITHUB_USERNAME = "musshal"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +63,31 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<ArrayList<GithubUsersResponseItem>>, t: Throwable) {
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
+        })
+    }
+
+    private fun findGithubUsers() {
+        val client = ApiConfig.getApiService().findGithubUsers(GITHUB_USERNAME)
+
+        client.enqueue(object : Callback<GithubUsersResponse> {
+            override fun onResponse(
+                call: Call<GithubUsersResponse>,
+                response: Response<GithubUsersResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+
+                    if (responseBody != null) {
+                        setGithubUsersData(responseBody.githubUsersResponseItem)
+                    }
+                } else {
+                    Log.e(TAG, "onFailure: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<GithubUsersResponse>, t: Throwable) {
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
