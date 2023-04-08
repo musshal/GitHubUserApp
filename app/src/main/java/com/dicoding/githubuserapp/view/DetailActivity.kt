@@ -1,18 +1,18 @@
-package com.dicoding.githubuserapp
+package com.dicoding.githubuserapp.view
 
 import android.os.Bundle
 import android.view.Menu
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
+import com.dicoding.githubuserapp.model.UsersItem
+import com.dicoding.githubuserapp.R
+import com.dicoding.githubuserapp.view.adapter.SectionsPagerAdapter
 import com.dicoding.githubuserapp.databinding.ActivityDetailBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import de.hdodenhof.circleimageview.CircleImageView
 
 class DetailActivity : AppCompatActivity() {
 
@@ -46,9 +46,10 @@ class DetailActivity : AppCompatActivity() {
 
         supportActionBar?.elevation = 0f
 
-        val githubUserData = intent.getParcelableExtra(KEY_GITHUB_USER) as GithubUsersResponseItem?
+        val githubUserData = intent.getParcelableExtra(KEY_GITHUB_USER) as UsersItem?
 
         if (githubUserData != null) {
+            Glide.with(this).load(githubUserData.avatarUrl).into(findViewById(R.id.civ_github_user_detail))
             findViewById<TextView>(R.id.tv_github_name_detail).text = githubUserData.login
         }
     }

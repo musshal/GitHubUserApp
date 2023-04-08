@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".DetailActivity">
+    tools:context=".view.DetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,6 +28,16 @@
             android:textColor="#ADBAC7"
             android:textStyle="bold"
             android:text="@string/name"/>
+
+        <TextView
+            android:id="@+id/tv_github_username_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textAlignment="center"
+            android:textColor="#ADBAC7"
+            android:textStyle="bold"
+            android:text="@string/username"/>
 
         <TextView
             android:id="@+id/tv_github_bio_detail"

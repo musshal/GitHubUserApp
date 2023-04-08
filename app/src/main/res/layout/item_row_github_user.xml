@@ -39,6 +39,14 @@
                     android:text="@string/username" />
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tv_github_bio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#768390"
+                android:textSize="20sp"
+                android:text="@string/bio" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

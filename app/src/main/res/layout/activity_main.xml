@@ -5,18 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
 
-    <SearchView
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/sv_github_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:iconifiedByDefault="false"
-        android:queryHint="Username" />
+        android:layout_marginEnd="16dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_github_users"
