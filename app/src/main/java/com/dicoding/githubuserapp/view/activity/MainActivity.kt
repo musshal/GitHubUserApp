@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.githubuserapp.*
@@ -32,6 +33,9 @@ class MainActivity : AppCompatActivity() {
         binding.rvGithubUsers.setHasFixedSize(true)
 
         val mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[MainViewModel::class.java]
+        mainViewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
         mainViewModel.users.observe(this) { users ->
             setUsersData(users)
         }
@@ -76,5 +80,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUsersData(users: ArrayList<UsersItem>) {
         adapter.setData(users)
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

@@ -41,6 +41,8 @@ class MainViewModel: ViewModel() {
                 call: Call<ArrayList<UsersItem>>,
                 response: Response<ArrayList<UsersItem>>
             ) {
+                _isLoading.value = false
+
                 if (response.isSuccessful) {
                     val responseBody = response.body()
 
@@ -53,6 +55,7 @@ class MainViewModel: ViewModel() {
             }
 
             override fun onFailure(call: Call<ArrayList<UsersItem>>, t: Throwable) {
+                _isLoading.value = false
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
@@ -84,6 +87,8 @@ class MainViewModel: ViewModel() {
     }
 
     fun findUsers(query: String) {
+        _isLoading.value = true
+
         val client = ApiConfig.getApiService().findUsers(query)
 
         client.enqueue(object : Callback<UsersResponse> {
@@ -91,6 +96,8 @@ class MainViewModel: ViewModel() {
                 call: Call<UsersResponse>,
                 response: Response<UsersResponse>
             ) {
+                _isLoading.value = false
+
                 if (response.isSuccessful) {
                     val responseBody = response.body()
 
@@ -103,6 +110,8 @@ class MainViewModel: ViewModel() {
             }
 
             override fun onFailure(call: Call<UsersResponse>, t: Throwable) {
+                _isLoading.value = false
+
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
