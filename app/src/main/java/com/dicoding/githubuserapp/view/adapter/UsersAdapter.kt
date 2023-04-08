@@ -1,5 +1,6 @@
 package com.dicoding.githubuserapp.view.adapter
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -48,6 +49,7 @@ class UsersAdapter(private val users: ArrayList<UsersItem>)
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(data: ArrayList<UsersItem>) {
         users.clear()
         users.addAll(data)

@@ -4,28 +4,19 @@ import android.app.SearchManager
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.githubuserapp.*
-import com.dicoding.githubuserapp.api.ApiConfig
 import com.dicoding.githubuserapp.databinding.ActivityMainBinding
 import com.dicoding.githubuserapp.model.*
 import com.dicoding.githubuserapp.view.adapter.UsersAdapter
 import com.dicoding.githubuserapp.viewmodel.MainViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: UsersAdapter
-
-    companion object {
-        private const val TAG = "MainActivity"
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +44,10 @@ class MainActivity : AppCompatActivity() {
         searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
-                    findUsers(query)
+                    mainViewModel.findUsers(query)
+                    mainViewModel.users.observe(this@MainActivity) { users ->
+                        setUsersData(users)
+                    }
                 }
 
                 searchView.clearFocus()
@@ -63,7 +57,10 @@ class MainActivity : AppCompatActivity() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText.equals("")) {
-                    getUsers()
+                    mainViewModel.getUsers()
+                    mainViewModel.users.observe(this@MainActivity) { users ->
+                        setUsersData(users)
+                    }
                 }
 
                 return false
@@ -77,84 +74,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun getUsers() {
-        val client = ApiConfig.getApiService().getUsers()
-
-        client.enqueue(object : Callback<ArrayList<UsersItem>> {
-            override fun onResponse(
-                call: Call<ArrayList<UsersItem>>,
-                response: Response<ArrayList<UsersItem>>
-            ) {
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-
-                    if (responseBody != null) {
-                        setUsersData(responseBody)
-                    }
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<ArrayList<UsersItem>>, t: Throwable) {
-                Log.e(TAG, "onFailure: ${t.message}")
-            }
-        })
-    }
-
-    private fun getUser(username: String) {
-        val client = ApiConfig.getApiService().getUser(username)
-
-        client.enqueue(object : Callback<UserResponse> {
-            override fun onResponse(
-                call: Call<UserResponse>,
-                response: Response<UserResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-
-                    if (responseBody != null) {
-                        getUserData(responseBody)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-        })
-    }
-
-    private fun findUsers(query: String) {
-        val client = ApiConfig.getApiService().findUsers(query)
-
-        client.enqueue(object : Callback<UsersResponse> {
-            override fun onResponse(
-                call: Call<UsersResponse>,
-                response: Response<UsersResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-
-                    if (responseBody != null) {
-                        setUsersData(responseBody.items)
-                    }
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<UsersResponse>, t: Throwable) {
-                Log.e(TAG, "onFailure: ${t.message}")
-            }
-        })
-    }
-
     private fun setUsersData(users: ArrayList<UsersItem>) {
         adapter.setData(users)
-    }
-
-    private fun getUserData(user: UserResponse) : UserResponse {
-        return user
     }
 }
