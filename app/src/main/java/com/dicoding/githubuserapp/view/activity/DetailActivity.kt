@@ -78,6 +78,7 @@ class DetailActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tv_github_bio_detail).text = user.bio
         findViewById<TextView>(R.id.tv_github_location_detail).text = user.location
         findViewById<TextView>(R.id.tv_github_repositories_detail).text = user.publicRepos.toString()
+        findViewById<TextView>(R.id.tv_github_following_detail).text = user.following.toString()
         findViewById<TextView>(R.id.tv_github_followers_detail).text = user.followers.toString()
     }
 }

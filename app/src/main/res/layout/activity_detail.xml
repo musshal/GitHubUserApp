@@ -70,6 +70,14 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/repositories"/>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
             <TextView
                 android:id="@+id/tv_github_followers_detail"
                 android:layout_width="wrap_content"
@@ -78,6 +86,13 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/followers"/>
 
+            <TextView
+                android:id="@+id/tv_github_following_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#768390"
+                android:layout_marginStart="8dp"
+                android:text="@string/following"/>
         </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout
