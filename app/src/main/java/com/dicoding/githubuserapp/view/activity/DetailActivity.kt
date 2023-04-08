@@ -1,4 +1,4 @@
-package com.dicoding.githubuserapp.view
+package com.dicoding.githubuserapp.view.activity
 
 import android.os.Bundle
 import android.view.Menu

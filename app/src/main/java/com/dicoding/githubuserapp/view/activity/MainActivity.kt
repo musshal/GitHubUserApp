@@ -1,4 +1,4 @@
-package com.dicoding.githubuserapp.view
+package com.dicoding.githubuserapp.view.activity
 
 import android.app.SearchManager
 import android.content.Context
@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.githubuserapp.*
 import com.dicoding.githubuserapp.api.ApiConfig
 import com.dicoding.githubuserapp.databinding.ActivityMainBinding
 import com.dicoding.githubuserapp.model.*
 import com.dicoding.githubuserapp.view.adapter.UsersAdapter
+import com.dicoding.githubuserapp.viewmodel.MainViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,7 +40,10 @@ class MainActivity : AppCompatActivity() {
         binding.rvGithubUsers.adapter = adapter
         binding.rvGithubUsers.setHasFixedSize(true)
 
-        getUsers()
+        val mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[MainViewModel::class.java]
+        mainViewModel.users.observe(this) { users ->
+            setUsersData(users)
+        }
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = findViewById<androidx.appcompat.widget.SearchView>(R.id.sv_github_user)

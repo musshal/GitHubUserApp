@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.githubuserapp.R
 import com.dicoding.githubuserapp.model.UsersItem
-import com.dicoding.githubuserapp.view.DetailActivity
+import com.dicoding.githubuserapp.view.activity.DetailActivity
 import de.hdodenhof.circleimageview.CircleImageView
 
 class UsersAdapter(private val users: ArrayList<UsersItem>)
