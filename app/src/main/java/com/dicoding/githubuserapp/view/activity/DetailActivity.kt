@@ -14,6 +14,8 @@ import com.dicoding.githubuserapp.R
 import com.dicoding.githubuserapp.view.adapter.SectionsPagerAdapter
 import com.dicoding.githubuserapp.databinding.ActivityDetailBinding
 import com.dicoding.githubuserapp.model.UserResponse
+import com.dicoding.githubuserapp.view.fragment.FollowerFragment
+import com.dicoding.githubuserapp.view.fragment.FollowingFragment
 import com.dicoding.githubuserapp.viewmodel.DetailViewModel
 import com.dicoding.githubuserapp.viewmodel.MainViewModel
 import com.google.android.material.tabs.TabLayout
@@ -32,6 +34,7 @@ class DetailActivity : AppCompatActivity() {
         )
 
         const val KEY_GITHUB_USER = "key_github_user"
+        const val USERNAME = "username"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +42,9 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(this)
+        val username = intent.getStringExtra(USERNAME).toString()
+
+        val sectionsPagerAdapter = SectionsPagerAdapter(this, username)
         val viewPager: ViewPager2 = findViewById(R.id.view_pager)
 
         viewPager.adapter = sectionsPagerAdapter

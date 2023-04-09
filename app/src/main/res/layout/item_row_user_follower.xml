@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civ_github_user_following"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            tools:src="@tools:sample/avatars" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_github_username_following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#539BF5"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:text="@string/username" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_github_bio_following"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#768390"
+                android:textSize="20sp"
+                android:text="@string/bio" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_github_location_following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#768390"
+                    android:textSize="18sp"
+                    android:text="@string/location" />
+
+                <TextView
+                    android:id="@+id/tv_github_repositories_following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#768390"
+                    android:textSize="18sp"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/repositories" />
+
+                <TextView
+                    android:id="@+id/tv_github_followers_following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#768390"
+                    android:textSize="18sp"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/followers"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -20,7 +20,7 @@ class UsersAdapter(private val users: ArrayList<UsersItem>)
         parent: ViewGroup,
         viewType: Int
     ) = ViewHolder(LayoutInflater.from(parent.context).inflate(
-        R.layout.item_row_github_user,
+        R.layout.item_row_user,
         parent,
         false))
 
@@ -40,10 +40,11 @@ class UsersAdapter(private val users: ArrayList<UsersItem>)
         val tvGithubUsername: TextView = view.findViewById(R.id.tv_github_username)
         val tvGithubBio: TextView = view.findViewById(R.id.tv_github_bio)
 
-        fun bind(githubUser: UsersItem) {
+        fun bind(user: UsersItem) {
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.KEY_GITHUB_USER, githubUser)
+                intent.putExtra(DetailActivity.KEY_GITHUB_USER, user)
+                intent.putExtra(DetailActivity.USERNAME, user.login)
                 itemView.context.startActivity(intent)
             }
         }
