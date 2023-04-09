@@ -10,16 +10,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.githubuserapp.R
 import com.dicoding.githubuserapp.api.ApiConfig
-import com.dicoding.githubuserapp.databinding.FragmentFollowingBinding
 import com.dicoding.githubuserapp.model.UsersItem
-import com.dicoding.githubuserapp.view.adapter.UserFollowingAdapter
+import com.dicoding.githubuserapp.view.adapter.UsersAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class FollowingFragment : Fragment() {
 
-    private lateinit var adapter: UserFollowingAdapter
+    private lateinit var adapter: UsersAdapter
     private lateinit var recyclerView: RecyclerView
 
 
@@ -39,7 +38,7 @@ class FollowingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val layoutManager = LinearLayoutManager(context)
-        adapter = UserFollowingAdapter(arrayListOf())
+        adapter = UsersAdapter(arrayListOf())
         recyclerView = view.findViewById(R.id.rv_github_user_followings)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter

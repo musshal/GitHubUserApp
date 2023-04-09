@@ -13,7 +13,7 @@
             android:id="@+id/rv_github_user_followings"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_row_user_following"
+            tools:listitem="@layout/item_row_user"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginStart="16dp"
