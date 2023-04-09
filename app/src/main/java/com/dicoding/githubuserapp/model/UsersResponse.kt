@@ -11,9 +11,9 @@ data class UsersResponse(
 
 @Parcelize
 data class UsersItem(
-	@field:SerializedName("avatar_url")
-	val avatarUrl: String,
-
 	@field:SerializedName("login")
 	val login: String,
+
+	@field:SerializedName("avatar_url")
+	val avatarUrl: String,
 ) : Parcelable

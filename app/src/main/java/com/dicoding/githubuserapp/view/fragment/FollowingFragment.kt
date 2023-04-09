@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.githubuserapp.R
 import com.dicoding.githubuserapp.api.ApiConfig
 import com.dicoding.githubuserapp.model.UsersItem
 import com.dicoding.githubuserapp.view.adapter.UsersAdapter
+import com.dicoding.githubuserapp.viewmodel.FollowingViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,36 +46,13 @@ class FollowingFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
 
-
-
         val username = arguments?.getString(EXTRA_USERNAME).toString()
 
-        getUserFollowings(username)
-
-    }
-
-    private fun getUserFollowings(username: String) {
-        val client = ApiConfig.getApiService().getUserFollowings(username)
-
-        client.enqueue(object : Callback<ArrayList<UsersItem>> {
-            override fun onResponse(
-                call: Call<ArrayList<UsersItem>>,
-                response: Response<ArrayList<UsersItem>>
-            ) {
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        setUsersData(responseBody)
-                    }
-                } else {
-                    Log.e("FollowingFragment", "onFailure: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<ArrayList<UsersItem>>, t: Throwable) {
-
-            }
-        })
+        val followingViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[FollowingViewModel::class.java]
+        followingViewModel.getUserFollowings(username)
+        followingViewModel.followings.observe(viewLifecycleOwner) {followings ->
+            setUsersData(followings)
+        }
     }
 
     private fun setUsersData(users: ArrayList<UsersItem>) {

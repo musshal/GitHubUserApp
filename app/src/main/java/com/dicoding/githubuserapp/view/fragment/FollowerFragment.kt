@@ -1,20 +1,17 @@
 package com.dicoding.githubuserapp.view.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.githubuserapp.R
-import com.dicoding.githubuserapp.api.ApiConfig
 import com.dicoding.githubuserapp.model.UsersItem
 import com.dicoding.githubuserapp.view.adapter.UsersAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.dicoding.githubuserapp.viewmodel.FollowerViewModel
 
 class FollowerFragment : Fragment() {
 
@@ -44,36 +41,13 @@ class FollowerFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
 
-
-
         val username = arguments?.getString(EXTRA_USERNAME).toString()
 
-        getUserFollowers(username)
-
-    }
-
-    private fun getUserFollowers(username: String) {
-        val client = ApiConfig.getApiService().getUserFollowers(username)
-
-        client.enqueue(object : Callback<ArrayList<UsersItem>> {
-            override fun onResponse(
-                call: Call<ArrayList<UsersItem>>,
-                response: Response<ArrayList<UsersItem>>
-            ) {
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        setUsersData(responseBody)
-                    }
-                } else {
-                    Log.e("FollowerFragment", "onFailure: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<ArrayList<UsersItem>>, t: Throwable) {
-
-            }
-        })
+        val followerViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[FollowerViewModel::class.java]
+        followerViewModel.getUserFollowers(username)
+        followerViewModel.followers.observe(viewLifecycleOwner) {followers ->
+            setUsersData(followers)
+        }
     }
 
     private fun setUsersData(users: ArrayList<UsersItem>) {
