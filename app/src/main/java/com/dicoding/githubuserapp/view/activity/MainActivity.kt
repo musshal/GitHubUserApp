@@ -39,6 +39,9 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.isError.observe(this) {
             showError(it)
         }
+        mainViewModel.isFound.observe(this) {
+            showNotFound(it)
+        }
         mainViewModel.users.observe(this) { users ->
             setUsersData(users)
         }
@@ -65,6 +68,7 @@ class MainActivity : AppCompatActivity() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText.equals("")) {
                     mainViewModel.getUsers()
+
                     mainViewModel.users.observe(this@MainActivity) { users ->
                         setUsersData(users)
                     }
@@ -91,5 +95,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun showError(isError: Boolean) {
         binding.errorMessage.visibility = if (isError) View.VISIBLE else View.GONE
+    }
+
+    private fun showNotFound(isFound: Boolean) {
+        binding.notFound.visibility = if (isFound) View.VISIBLE else View.GONE
     }
 }

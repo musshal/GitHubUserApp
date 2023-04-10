@@ -23,6 +23,9 @@ class MainViewModel: ViewModel() {
     private val _isError = MutableLiveData<Boolean>()
     val isError: LiveData<Boolean> = _isError
 
+    private val _isFound = MutableLiveData<Boolean>()
+    val isFound: LiveData<Boolean> = _isFound
+
     companion object {
         private const val TAG = "MainViewModel"
     }
@@ -34,6 +37,7 @@ class MainViewModel: ViewModel() {
     fun getUsers() {
         _isLoading.value = true
         _isError.value = false
+        _isFound.value = false
 
         val client = ApiConfig.getApiService().getUsers()
 
@@ -69,6 +73,7 @@ class MainViewModel: ViewModel() {
     fun findUsers(query: String) {
         _isLoading.value = true
         _isError.value = false
+        _isFound.value = false
 
         val client = ApiConfig.getApiService().findUsers(query)
 
@@ -84,9 +89,14 @@ class MainViewModel: ViewModel() {
                     val responseBody = response.body()
 
                     if (responseBody != null) {
+                        if (responseBody.items.isEmpty()) {
+                            _isFound.value = true
+                        }
+
                         _users.value = responseBody.items
                     }
                 } else {
+                    _isError.value = true
                     Log.e(TAG, "onFailure: ${response.message()}")
                 }
             }
