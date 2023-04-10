@@ -12,4 +12,5 @@
     <string name="tab_text_2">Following</string>
     <string name="search_hint">Username</string>
     <string name="following">Following</string>
+    <string name="error_message">Failed to Load Data</string>
 </resources>

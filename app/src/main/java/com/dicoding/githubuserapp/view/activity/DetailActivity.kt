@@ -15,8 +15,8 @@ import com.dicoding.githubuserapp.R
 import com.dicoding.githubuserapp.view.adapter.SectionsPagerAdapter
 import com.dicoding.githubuserapp.databinding.ActivityDetailBinding
 import com.dicoding.githubuserapp.model.UserResponse
-import com.dicoding.githubuserapp.view.fragment.FollowerFragment
-import com.dicoding.githubuserapp.view.fragment.FollowingFragment
+import com.dicoding.githubuserapp.view.activity.fragment.FollowerFragment
+import com.dicoding.githubuserapp.view.activity.fragment.FollowingFragment
 import com.dicoding.githubuserapp.viewmodel.DetailViewModel
 import com.dicoding.githubuserapp.viewmodel.MainViewModel
 import com.google.android.material.tabs.TabLayout

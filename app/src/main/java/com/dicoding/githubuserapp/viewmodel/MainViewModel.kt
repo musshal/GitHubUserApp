@@ -17,11 +17,11 @@ class MainViewModel: ViewModel() {
     private val _users = MutableLiveData<ArrayList<UsersItem>>()
     val users: LiveData<ArrayList<UsersItem>> = _users
 
-    private val _user = MutableLiveData<UserResponse>()
-    val user: LiveData<UserResponse> = _user
-
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
+
+    private val _isError = MutableLiveData<Boolean>()
+    val isError: LiveData<Boolean> = _isError
 
     companion object {
         private const val TAG = "MainViewModel"
@@ -33,6 +33,7 @@ class MainViewModel: ViewModel() {
 
     fun getUsers() {
         _isLoading.value = true
+        _isError.value = false
 
         val client = ApiConfig.getApiService().getUsers()
 
@@ -42,6 +43,7 @@ class MainViewModel: ViewModel() {
                 response: Response<ArrayList<UsersItem>>
             ) {
                 _isLoading.value = false
+                _isError.value = false
 
                 if (response.isSuccessful) {
                     val responseBody = response.body()
@@ -50,37 +52,15 @@ class MainViewModel: ViewModel() {
                         _users.value = responseBody
                     }
                 } else {
+                    _isError.value = true
                     Log.e(TAG, "onFailure: ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<ArrayList<UsersItem>>, t: Throwable) {
                 _isLoading.value = false
-                Log.e(TAG, "onFailure: ${t.message}")
-            }
-        })
-    }
+                _isError.value = true
 
-    fun getUser(username: String) {
-        val client = ApiConfig.getApiService().getUser(username)
-
-        client.enqueue(object : Callback<UserResponse> {
-            override fun onResponse(
-                call: Call<UserResponse>,
-                response: Response<UserResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-
-                    if (responseBody != null) {
-                        _user.value = responseBody
-                    }
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
@@ -88,6 +68,7 @@ class MainViewModel: ViewModel() {
 
     fun findUsers(query: String) {
         _isLoading.value = true
+        _isError.value = false
 
         val client = ApiConfig.getApiService().findUsers(query)
 
@@ -97,6 +78,7 @@ class MainViewModel: ViewModel() {
                 response: Response<UsersResponse>
             ) {
                 _isLoading.value = false
+                _isError.value = false
 
                 if (response.isSuccessful) {
                     val responseBody = response.body()
@@ -111,6 +93,7 @@ class MainViewModel: ViewModel() {
 
             override fun onFailure(call: Call<UsersResponse>, t: Throwable) {
                 _isLoading.value = false
+                _isError.value = true
 
                 Log.e(TAG, "onFailure: ${t.message}")
             }

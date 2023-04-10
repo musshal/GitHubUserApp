@@ -1,23 +1,19 @@
-package com.dicoding.githubuserapp.view.fragment
+package com.dicoding.githubuserapp.view.activity.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.githubuserapp.R
-import com.dicoding.githubuserapp.api.ApiConfig
 import com.dicoding.githubuserapp.model.UsersItem
 import com.dicoding.githubuserapp.view.adapter.UsersAdapter
 import com.dicoding.githubuserapp.viewmodel.FollowingViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class FollowingFragment : Fragment() {
 
@@ -53,6 +49,9 @@ class FollowingFragment : Fragment() {
         followingViewModel.isLoading.observe(viewLifecycleOwner) {
             showLoading(it, view)
         }
+        followingViewModel.isError.observe(viewLifecycleOwner) {
+            showError(it, view)
+        }
         followingViewModel.followings.observe(viewLifecycleOwner) {followings ->
             setUsersData(followings)
         }
@@ -65,5 +64,10 @@ class FollowingFragment : Fragment() {
     private fun showLoading(isLoading: Boolean, view: View) {
         val progressBar: ProgressBar = view.findViewById(R.id.progressBar)
         progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showError(isError: Boolean, view: View) {
+        val errorMessage: TextView = view.findViewById(R.id.errorMessage)
+        errorMessage.visibility = if (isError) View.VISIBLE else View.GONE
     }
 }

@@ -17,12 +17,16 @@ class FollowingViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _isError = MutableLiveData<Boolean>()
+    val isError: LiveData<Boolean> = _isError
+
     companion object {
         private const val TAG = "FollowingViewModel"
     }
 
     fun getUserFollowings(username: String) {
         _isLoading.value = true
+        _isError.value = false
 
         val client = ApiConfig.getApiService().getUserFollowings(username)
 
@@ -32,6 +36,7 @@ class FollowingViewModel : ViewModel() {
                 response: Response<ArrayList<UsersItem>>
             ) {
                 _isLoading.value = false
+                _isError.value = false
 
                 if (response.isSuccessful) {
                     val responseBody = response.body()
@@ -40,12 +45,14 @@ class FollowingViewModel : ViewModel() {
                         _followings.value = responseBody
                     }
                 } else {
+                    _isError.value = true
                     Log.e(TAG, "onFailure: ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<ArrayList<UsersItem>>, t: Throwable) {
                 _isLoading.value = false
+                _isError.value = true
 
                 Log.e(TAG, "onFailure: ${t.message}")
             }
