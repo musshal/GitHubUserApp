@@ -57,6 +57,8 @@ class MainViewModel: ViewModel() {
                     }
                 } else {
                     _isError.value = true
+                    _users.value = ArrayList()
+
                     Log.e(TAG, "onFailure: ${response.message()}")
                 }
             }
