@@ -66,6 +66,9 @@ class DetailActivity : AppCompatActivity() {
             detailViewModel.isLoading.observe(this) {
                 showLoading(it)
             }
+            detailViewModel.isError.observe(this) {
+                showError(it)
+            }
             detailViewModel.user.observe(this) { user ->
                 run {
                     setUserData(user)
@@ -93,5 +96,9 @@ class DetailActivity : AppCompatActivity() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showError(isError: Boolean) {
+        binding.errorMessage.visibility = if (isError) View.VISIBLE else View.GONE
     }
 }
