@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +23,6 @@ class FollowingFragment : Fragment() {
 
     private lateinit var adapter: UsersAdapter
     private lateinit var recyclerView: RecyclerView
-
 
     companion object {
         var EXTRA_USERNAME = "extra_username"
@@ -50,6 +50,9 @@ class FollowingFragment : Fragment() {
 
         val followingViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[FollowingViewModel::class.java]
         followingViewModel.getUserFollowings(username)
+        followingViewModel.isLoading.observe(viewLifecycleOwner) {
+            showLoading(it, view)
+        }
         followingViewModel.followings.observe(viewLifecycleOwner) {followings ->
             setUsersData(followings)
         }
@@ -57,5 +60,10 @@ class FollowingFragment : Fragment() {
 
     private fun setUsersData(users: ArrayList<UsersItem>) {
         adapter.setData(users)
+    }
+
+    private fun showLoading(isLoading: Boolean, view: View) {
+        val progressBar: ProgressBar = view.findViewById(R.id.progressBar)
+        progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

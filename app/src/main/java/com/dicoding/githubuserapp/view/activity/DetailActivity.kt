@@ -2,6 +2,7 @@ package com.dicoding.githubuserapp.view.activity
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -62,6 +63,9 @@ class DetailActivity : AppCompatActivity() {
         if (githubUserData != null) {
             val detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[DetailViewModel::class.java]
             detailViewModel.getUser(githubUserData.login)
+            detailViewModel.isLoading.observe(this) {
+                showLoading(it)
+            }
             detailViewModel.user.observe(this) { user ->
                 run {
                     setUserData(user)
@@ -85,5 +89,9 @@ class DetailActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tv_github_repositories_detail).text = user.publicRepos.toString()
         findViewById<TextView>(R.id.tv_github_following_detail).text = user.following.toString()
         findViewById<TextView>(R.id.tv_github_followers_detail).text = user.followers.toString()
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }
