@@ -4,29 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.MainActivity">
+    tools:context=".view.activity.fragment.FollowingFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/sv_user"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp" />
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_users"
+            android:id="@+id/rv_github_user_followings"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/item_row_user"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"/>
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
 
     </LinearLayout>
 
@@ -55,19 +47,5 @@
         android:gravity="center"
         android:textSize="18sp"
         android:text="@string/error_message"/>
-
-    <TextView
-        android:id="@+id/notFound"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:text="@string/not_found"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
