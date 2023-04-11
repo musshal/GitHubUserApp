@@ -1,5 +1,6 @@
 package com.dicoding.githubuserapp.view.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
@@ -34,8 +35,8 @@ class DetailActivity : AppCompatActivity() {
             R.string.tab_text_2
         )
 
-        const val KEY_GITHUB_USER = "key_github_user"
-        const val USERNAME = "username"
+        const val KEY_USER = "key_user"
+        const val EXTRA_USERNAME = "extra_username"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,32 +44,39 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val username = intent.getStringExtra(USERNAME).toString()
-
+        val username = intent.getStringExtra(EXTRA_USERNAME).toString()
         val sectionsPagerAdapter = SectionsPagerAdapter(this, username)
+
         val viewPager: ViewPager2 = findViewById(R.id.view_pager)
+        val tabs: TabLayout = findViewById(R.id.tabs)
 
         viewPager.adapter = sectionsPagerAdapter
-
-        val tabs: TabLayout = findViewById(R.id.tabs)
 
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
 
         supportActionBar?.elevation = 0f
+        supportActionBar?.setTitle("Detail User")
 
-        val githubUserData = intent.getParcelableExtra(KEY_GITHUB_USER) as UsersItem?
+        val userData = intent.getParcelableExtra(KEY_USER) as UsersItem?
 
-        if (githubUserData != null) {
-            val detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[DetailViewModel::class.java]
-            detailViewModel.getUser(githubUserData.login)
+        if (userData != null) {
+            val detailViewModel = ViewModelProvider(
+                this,
+                ViewModelProvider.NewInstanceFactory()
+            )[DetailViewModel::class.java]
+
+            detailViewModel.getUser(userData.login)
+
             detailViewModel.isLoading.observe(this) {
                 showLoading(it)
             }
+
             detailViewModel.isError.observe(this) {
                 showError(it)
             }
+
             detailViewModel.user.observe(this) { user ->
                 run {
                     setUserData(user)
@@ -79,19 +87,26 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
+
         inflater.inflate(R.menu.menu_setting, menu)
+
         return true
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setUserData(user: UserResponse) {
-        Glide.with(binding.civGithubUserDetail).load(user.avatarUrl).into(findViewById(R.id.civ_github_user_detail))
-        findViewById<TextView>(R.id.tv_github_name_detail).text = user.name
-        findViewById<TextView>(R.id.tv_github_username_detail).text = user.login
-        findViewById<TextView>(R.id.tv_github_bio_detail).text = user.bio
-        findViewById<TextView>(R.id.tv_github_location_detail).text = user.location
-        findViewById<TextView>(R.id.tv_github_repositories_detail).text = user.publicRepos.toString()
-        findViewById<TextView>(R.id.tv_github_following_detail).text = user.following.toString()
-        findViewById<TextView>(R.id.tv_github_followers_detail).text = user.followers.toString()
+        Glide
+            .with(binding.civUserDetail)
+            .load(user.avatarUrl)
+            .into(findViewById(R.id.civ_user_detail))
+
+        findViewById<TextView>(R.id.tv_name_detail).text = user.name
+        findViewById<TextView>(R.id.tv_username_detail).text = user.login
+        findViewById<TextView>(R.id.tv_bio_detail).text = "Bio: ${user.bio}"
+        findViewById<TextView>(R.id.tv_location_detail).text = "Loc: ${user.location}"
+        findViewById<TextView>(R.id.tv_repositories_detail).text = "Repos: ${user.publicRepos.toString()}"
+        findViewById<TextView>(R.id.tv_following_detail).text = "Follower: ${user.following.toString()}"
+        findViewById<TextView>(R.id.tv_followers_detail).text = "Following: ${user.followers.toString()}"
     }
 
     private fun showLoading(isLoading: Boolean) {

@@ -19,7 +19,7 @@ class SectionsPagerAdapter(activity: AppCompatActivity, private var username: St
 
         if (fragment != null) {
             fragment.arguments = Bundle().apply {
-                putString(FollowingFragment.EXTRA_USERNAME, username)
+                putString(FollowingFragment.USERNAME, username)
             }
         }
 

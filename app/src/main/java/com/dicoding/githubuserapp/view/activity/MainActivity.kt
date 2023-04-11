@@ -28,30 +28,39 @@ class MainActivity : AppCompatActivity() {
 
         adapter = UsersAdapter(arrayListOf())
 
-        binding.rvGithubUsers.layoutManager = layoutManager
-        binding.rvGithubUsers.adapter = adapter
-        binding.rvGithubUsers.setHasFixedSize(true)
+        binding.rvUsers.layoutManager = layoutManager
+        binding.rvUsers.adapter = adapter
+        binding.rvUsers.setHasFixedSize(true)
 
-        val mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[MainViewModel::class.java]
+        val mainViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        )[MainViewModel::class.java]
+
         mainViewModel.isLoading.observe(this) {
             showLoading(it)
         }
+
         mainViewModel.isError.observe(this) {
             showError(it)
         }
+
         mainViewModel.isFound.observe(this) {
             showNotFound(it)
         }
+
         mainViewModel.users.observe(this) { users ->
             setUsersData(users)
         }
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView = findViewById<androidx.appcompat.widget.SearchView>(R.id.sv_github_user)
+        val searchView = findViewById<androidx.appcompat.widget.SearchView>(R.id.sv_user)
+
+        searchView.queryHint = resources.getString(R.string.search_hint)
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        searchView.queryHint = resources.getString(R.string.search_hint)
-        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(
+            object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
                     mainViewModel.findUsers(query)
@@ -68,7 +77,6 @@ class MainActivity : AppCompatActivity() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText.equals("")) {
                     mainViewModel.getUsers()
-
                     mainViewModel.users.observe(this@MainActivity) { users ->
                         setUsersData(users)
                     }

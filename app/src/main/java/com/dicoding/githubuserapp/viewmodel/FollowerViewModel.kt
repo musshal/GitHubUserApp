@@ -46,6 +46,7 @@ class FollowerViewModel : ViewModel() {
                     }
                 } else {
                     _isError.value = true
+
                     Log.e(TAG, "onFailure: ${response.message()}")
                 }
             }
@@ -53,6 +54,7 @@ class FollowerViewModel : ViewModel() {
             override fun onFailure(call: Call<ArrayList<UsersItem>>, t: Throwable) {
                 _isLoading.value = false
                 _isError.value = true
+
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })

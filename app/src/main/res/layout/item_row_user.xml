@@ -3,20 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginBottom="8dp">
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginTop="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:padding="4dp"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/civ_github_user"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:id="@+id/civ_user"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             tools:src="@tools:sample/avatars" />
 
         <LinearLayout
@@ -30,22 +30,34 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/tv_github_username"
+                    android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#539BF5"
                     android:textStyle="bold"
-                    android:textSize="24sp"
-                    android:text="@string/username" />
+                    android:textSize="20sp"
+                    tools:text="@string/name" />
+
+                <TextView
+                    android:id="@+id/tv_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textColor="#768390"
+                    android:textSize="16sp"
+                    tools:text="@string/username" />
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_github_bio"
+                android:id="@+id/tv_bio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#768390"
-                android:textSize="20sp"
-                android:text="@string/bio" />
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginTop="4dp"
+                android:textSize="14sp"
+                tools:text="@string/bio" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -54,30 +66,30 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_github_location"
+                    android:id="@+id/tv_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#768390"
-                    android:textSize="18sp"
-                    android:text="@string/location" />
+                    android:textSize="14sp"
+                    tools:text="@string/location" />
 
                 <TextView
-                    android:id="@+id/tv_github_repositories"
+                    android:id="@+id/tv_repositories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#768390"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:layout_marginStart="8dp"
-                    android:text="@string/repositories" />
+                    tools:text="@string/repositories" />
 
                 <TextView
-                    android:id="@+id/tv_github_followers"
+                    android:id="@+id/tv_followers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#768390"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:layout_marginStart="8dp"
-                    android:text="@string/followers"/>
+                    tools:text="@string/followers"/>
             </LinearLayout>
 
         </LinearLayout>

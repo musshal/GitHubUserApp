@@ -99,6 +99,7 @@ class MainViewModel: ViewModel() {
                     }
                 } else {
                     _isError.value = true
+
                     Log.e(TAG, "onFailure: ${response.message()}")
                 }
             }
