@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.dicoding.githubuserapp.model.UsersItem
@@ -16,13 +15,9 @@ import com.dicoding.githubuserapp.R
 import com.dicoding.githubuserapp.view.adapter.SectionsPagerAdapter
 import com.dicoding.githubuserapp.databinding.ActivityDetailBinding
 import com.dicoding.githubuserapp.model.UserResponse
-import com.dicoding.githubuserapp.view.activity.fragment.FollowerFragment
-import com.dicoding.githubuserapp.view.activity.fragment.FollowingFragment
 import com.dicoding.githubuserapp.viewmodel.DetailViewModel
-import com.dicoding.githubuserapp.viewmodel.MainViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import org.w3c.dom.Text
 
 class DetailActivity : AppCompatActivity() {
 
@@ -104,9 +99,9 @@ class DetailActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tv_username_detail).text = user.login
         findViewById<TextView>(R.id.tv_bio_detail).text = "Bio: ${user.bio}"
         findViewById<TextView>(R.id.tv_location_detail).text = "Loc: ${user.location}"
-        findViewById<TextView>(R.id.tv_repositories_detail).text = "Repos: ${user.publicRepos.toString()}"
-        findViewById<TextView>(R.id.tv_following_detail).text = "Follower: ${user.following.toString()}"
-        findViewById<TextView>(R.id.tv_followers_detail).text = "Following: ${user.followers.toString()}"
+        findViewById<TextView>(R.id.tv_repositories_detail).text = "Repos: ${user.publicRepos}"
+        findViewById<TextView>(R.id.tv_following_detail).text = "Follower: ${user.following}"
+        findViewById<TextView>(R.id.tv_followers_detail).text = "Following: ${user.followers}"
     }
 
     private fun showLoading(isLoading: Boolean) {

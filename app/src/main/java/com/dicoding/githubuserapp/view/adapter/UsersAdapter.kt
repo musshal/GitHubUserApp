@@ -2,12 +2,10 @@ package com.dicoding.githubuserapp.view.adapter
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.githubuserapp.R
@@ -15,7 +13,6 @@ import com.dicoding.githubuserapp.api.ApiConfig
 import com.dicoding.githubuserapp.model.UserResponse
 import com.dicoding.githubuserapp.model.UsersItem
 import com.dicoding.githubuserapp.view.activity.DetailActivity
-import com.dicoding.githubuserapp.viewmodel.FollowerViewModel
 import de.hdodenhof.circleimageview.CircleImageView
 import retrofit2.Call
 import retrofit2.Callback
