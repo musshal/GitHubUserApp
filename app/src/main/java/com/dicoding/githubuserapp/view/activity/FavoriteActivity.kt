@@ -13,6 +13,8 @@ class FavoriteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityFavoriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportActionBar?.setTitle("Favorite User")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

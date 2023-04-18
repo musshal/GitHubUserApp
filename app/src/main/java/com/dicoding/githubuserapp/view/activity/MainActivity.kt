@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.setTitle("Github Search User")
+
         val layoutManager = LinearLayoutManager(this)
 
         adapter = UsersAdapter(arrayListOf())
