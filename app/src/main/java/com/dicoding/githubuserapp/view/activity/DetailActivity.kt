@@ -53,6 +53,8 @@ class DetailActivity : AppCompatActivity() {
 
         supportActionBar?.elevation = 0f
         supportActionBar?.setTitle("Detail User")
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         val userData = intent.getParcelableExtra(KEY_USER) as UsersItem?
 
@@ -78,6 +80,12 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+
+        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
