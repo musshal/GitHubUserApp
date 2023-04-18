@@ -98,13 +98,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.favorite -> {
                 val intent = Intent(this, FavoriteActivity::class.java)
                 startActivity(intent)
-                return true
+                true
             }
-            else -> return true
+            else -> true
         }
     }
 

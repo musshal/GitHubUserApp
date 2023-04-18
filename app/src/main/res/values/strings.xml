@@ -14,4 +14,5 @@
     <string name="error_message">Failed to Load Data</string>
     <string name="not_found">Not Found</string>
     <string name="favorite">Favorite</string>
+    <string name="no_favorite_user">No Favorite User</string>
 </resources>
