@@ -17,7 +17,7 @@ class ApiConfig {
 
             val client = OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
+                .baseUrl(BuildConfig.GITHUB_API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
