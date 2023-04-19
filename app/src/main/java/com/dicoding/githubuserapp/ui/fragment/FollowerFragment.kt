@@ -1,4 +1,4 @@
-package com.dicoding.githubuserapp.view.activity.fragment
+package com.dicoding.githubuserapp.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,11 +11,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.githubuserapp.R
-import com.dicoding.githubuserapp.model.UsersItem
-import com.dicoding.githubuserapp.view.adapter.UsersAdapter
-import com.dicoding.githubuserapp.viewmodel.FollowingViewModel
+import com.dicoding.githubuserapp.data.remote.response.UsersItem
+import com.dicoding.githubuserapp.ui.adapter.UsersAdapter
+import com.dicoding.githubuserapp.ui.viewmodel.FollowerViewModel
 
-class FollowingFragment : Fragment() {
+class FollowerFragment : Fragment() {
 
     private lateinit var adapter: UsersAdapter
     private lateinit var recyclerView: RecyclerView
@@ -28,7 +28,7 @@ class FollowingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_following, container, false)
+        return inflater.inflate(R.layout.fragment_follower, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,30 +37,30 @@ class FollowingFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context)
 
         adapter = UsersAdapter(arrayListOf())
-        recyclerView = view.findViewById(R.id.rv_github_user_followings)
+        recyclerView = view.findViewById(R.id.rv_github_user_followers)
 
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
 
         val username = arguments?.getString(USERNAME).toString()
-        val followingViewModel = ViewModelProvider(
+        val followerViewModel = ViewModelProvider(
             this,
             ViewModelProvider.NewInstanceFactory()
-        )[FollowingViewModel::class.java]
+        )[FollowerViewModel::class.java]
 
-        followingViewModel.getUserFollowings(username)
+        followerViewModel.getUserFollowers(username)
 
-        followingViewModel.isLoading.observe(viewLifecycleOwner) {
+        followerViewModel.isLoading.observe(viewLifecycleOwner) {
             showLoading(it, view)
         }
 
-        followingViewModel.isError.observe(viewLifecycleOwner) {
+        followerViewModel.isError.observe(viewLifecycleOwner) {
             showError(it, view)
         }
 
-        followingViewModel.followings.observe(viewLifecycleOwner) {followings ->
-            setUsersData(followings)
+        followerViewModel.followers.observe(viewLifecycleOwner) {followers ->
+            setUsersData(followers)
         }
     }
 

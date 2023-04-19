@@ -1,4 +1,4 @@
-package com.dicoding.githubuserapp.api
+package com.dicoding.githubuserapp.data.remote.retrofit
 
 import com.dicoding.githubuserapp.BuildConfig
 import okhttp3.OkHttpClient

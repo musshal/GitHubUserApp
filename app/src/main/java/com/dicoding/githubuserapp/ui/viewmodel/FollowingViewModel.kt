@@ -1,18 +1,18 @@
-package com.dicoding.githubuserapp.viewmodel
+package com.dicoding.githubuserapp.ui.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dicoding.githubuserapp.api.ApiConfig
-import com.dicoding.githubuserapp.model.UserResponse
+import com.dicoding.githubuserapp.data.remote.retrofit.ApiConfig
+import com.dicoding.githubuserapp.data.remote.response.UsersItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailViewModel : ViewModel() {
-    private val _user = MutableLiveData<UserResponse>()
-    val user: LiveData<UserResponse> = _user
+class FollowingViewModel : ViewModel() {
+    private val _followings = MutableLiveData<ArrayList<UsersItem>>()
+    val followings: LiveData<ArrayList<UsersItem>> = _followings
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -21,19 +21,19 @@ class DetailViewModel : ViewModel() {
     val isError: LiveData<Boolean> = _isError
 
     companion object {
-        private const val TAG = "DetailViewModel"
+        private const val TAG = "FollowingViewModel"
     }
 
-    fun getUser(username: String) {
+    fun getUserFollowings(username: String) {
         _isLoading.value = true
         _isError.value = false
 
-        val client = ApiConfig.getApiService().getUser(username)
+        val client = ApiConfig.getApiService().getUserFollowings(username)
 
-        client.enqueue(object : Callback<UserResponse> {
+        client.enqueue(object : Callback<ArrayList<UsersItem>> {
             override fun onResponse(
-                call: Call<UserResponse>,
-                response: Response<UserResponse>
+                call: Call<ArrayList<UsersItem>>,
+                response: Response<ArrayList<UsersItem>>
             ) {
                 _isLoading.value = false
                 _isError.value = false
@@ -42,7 +42,7 @@ class DetailViewModel : ViewModel() {
                     val responseBody = response.body()
 
                     if (responseBody != null) {
-                        _user.value = responseBody
+                        _followings.value = responseBody
                     }
                 } else {
                     _isError.value = true
@@ -51,7 +51,7 @@ class DetailViewModel : ViewModel() {
                 }
             }
 
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+            override fun onFailure(call: Call<ArrayList<UsersItem>>, t: Throwable) {
                 _isLoading.value = false
                 _isError.value = true
 

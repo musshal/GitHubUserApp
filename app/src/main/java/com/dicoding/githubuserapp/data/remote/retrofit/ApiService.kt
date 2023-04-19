@@ -1,6 +1,8 @@
-package com.dicoding.githubuserapp.api
+package com.dicoding.githubuserapp.data.remote.retrofit
 
-import com.dicoding.githubuserapp.model.*
+import com.dicoding.githubuserapp.data.remote.response.UserResponse
+import com.dicoding.githubuserapp.data.remote.response.UsersItem
+import com.dicoding.githubuserapp.data.remote.response.UsersResponse
 import retrofit2.Call
 import retrofit2.http.*
 

@@ -1,4 +1,4 @@
-package com.dicoding.githubuserapp.view.adapter
+package com.dicoding.githubuserapp.ui.adapter
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -9,10 +9,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.githubuserapp.R
-import com.dicoding.githubuserapp.api.ApiConfig
-import com.dicoding.githubuserapp.model.UserResponse
-import com.dicoding.githubuserapp.model.UsersItem
-import com.dicoding.githubuserapp.view.activity.DetailActivity
+import com.dicoding.githubuserapp.data.remote.retrofit.ApiConfig
+import com.dicoding.githubuserapp.data.remote.response.UserResponse
+import com.dicoding.githubuserapp.data.remote.response.UsersItem
+import com.dicoding.githubuserapp.ui.activity.DetailActivity
 import de.hdodenhof.circleimageview.CircleImageView
 import retrofit2.Call
 import retrofit2.Callback
@@ -72,7 +72,7 @@ class UsersAdapter(private val users: ArrayList<UsersItem>)
         val tvFollowers: TextView = view.findViewById(R.id.tv_followers)
 
         fun bind(user: UsersItem) {
-            itemView.setOnClickListener {
+            civUser.setOnClickListener {
                 val intent = Intent(itemView.context, DetailActivity::class.java)
 
                 intent.putExtra(DetailActivity.KEY_USER, user)

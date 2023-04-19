@@ -15,4 +15,5 @@
     <string name="not_found">Not Found</string>
     <string name="favorite">Favorite</string>
     <string name="no_favorite_user">No Favorite User</string>
+    <string name="save_favorite">Save Favorite\n</string>
 </resources>

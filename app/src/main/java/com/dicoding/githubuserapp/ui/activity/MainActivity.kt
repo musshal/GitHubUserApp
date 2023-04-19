@@ -1,4 +1,4 @@
-package com.dicoding.githubuserapp.view.activity
+package com.dicoding.githubuserapp.ui.activity
 
 import android.app.SearchManager
 import android.content.Context
@@ -11,10 +11,10 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.githubuserapp.*
+import com.dicoding.githubuserapp.data.remote.response.UsersItem
 import com.dicoding.githubuserapp.databinding.ActivityMainBinding
-import com.dicoding.githubuserapp.model.*
-import com.dicoding.githubuserapp.view.adapter.UsersAdapter
-import com.dicoding.githubuserapp.viewmodel.MainViewModel
+import com.dicoding.githubuserapp.ui.adapter.UsersAdapter
+import com.dicoding.githubuserapp.ui.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 

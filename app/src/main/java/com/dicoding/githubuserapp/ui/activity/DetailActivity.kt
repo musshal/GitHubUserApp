@@ -1,4 +1,4 @@
-package com.dicoding.githubuserapp.view.activity
+package com.dicoding.githubuserapp.ui.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,12 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.dicoding.githubuserapp.model.UsersItem
+import com.dicoding.githubuserapp.data.remote.response.UsersItem
 import com.dicoding.githubuserapp.R
-import com.dicoding.githubuserapp.view.adapter.SectionsPagerAdapter
+import com.dicoding.githubuserapp.ui.adapter.SectionsPagerAdapter
 import com.dicoding.githubuserapp.databinding.ActivityDetailBinding
-import com.dicoding.githubuserapp.model.UserResponse
-import com.dicoding.githubuserapp.viewmodel.DetailViewModel
+import com.dicoding.githubuserapp.data.remote.response.UserResponse
+import com.dicoding.githubuserapp.ui.viewmodel.DetailViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
