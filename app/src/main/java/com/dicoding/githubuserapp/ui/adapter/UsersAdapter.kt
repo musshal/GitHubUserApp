@@ -1,14 +1,18 @@
 package com.dicoding.githubuserapp.ui.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.githubuserapp.R
+import com.dicoding.githubuserapp.data.local.entity.FavoriteUser
 import com.dicoding.githubuserapp.data.remote.retrofit.ApiConfig
 import com.dicoding.githubuserapp.data.remote.response.UserResponse
 import com.dicoding.githubuserapp.data.remote.response.UsersItem
@@ -30,7 +34,8 @@ class UsersAdapter(private val users: ArrayList<UsersItem>)
         false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val username = users[position].login
+        val user = users[position]
+        val username = user.login
         val client = ApiConfig.getApiService().getUser(username)
 
         client.enqueue(object : Callback<UserResponse> {
@@ -53,11 +58,11 @@ class UsersAdapter(private val users: ArrayList<UsersItem>)
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {}
         })
 
-        Glide.with(holder.itemView.context).load(users[position].avatarUrl).into(holder.civUser)
+        Glide.with(holder.itemView.context).load(user.avatarUrl).into(holder.civUser)
 
-        holder.tvUsername.text = users[position].login
+        holder.tvUsername.text = user.login
 
-        holder.bind(users[position])
+        holder.bind(user)
     }
 
     override fun getItemCount(): Int = users.size
@@ -72,7 +77,7 @@ class UsersAdapter(private val users: ArrayList<UsersItem>)
         val tvFollowers: TextView = view.findViewById(R.id.tv_followers)
 
         fun bind(user: UsersItem) {
-            civUser.setOnClickListener {
+            itemView.setOnClickListener {
                 val intent = Intent(itemView.context, DetailActivity::class.java)
 
                 intent.putExtra(DetailActivity.KEY_USER, user)

@@ -57,6 +57,8 @@ class MainActivity : AppCompatActivity() {
             setUsersData(users)
         }
 
+
+
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = findViewById<androidx.appcompat.widget.SearchView>(R.id.sv_user)
 

@@ -21,6 +21,18 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:foregroundGravity="bottom"
+                        app:fabSize="normal"
+                        android:contentDescription="@string/favorite"
+                        app:layout_anchorGravity="bottom|end"
+                        app:srcCompat="@drawable/baseline_favorite_border_24" />
+
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/civ_user_detail"
                         android:layout_width="125dp"
@@ -137,6 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp" />
+
 
         </LinearLayout>
 

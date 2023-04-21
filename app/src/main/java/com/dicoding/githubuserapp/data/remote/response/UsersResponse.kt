@@ -15,5 +15,5 @@ data class UsersItem(
 	val login: String,
 
 	@field:SerializedName("avatar_url")
-	val avatarUrl: String,
+	val avatarUrl: String
 ) : Parcelable

@@ -13,7 +13,7 @@
     <string name="following">Following</string>
     <string name="error_message">Failed to Load Data</string>
     <string name="not_found">Not Found</string>
-    <string name="favorite">Favorite</string>
+    <string name="favorite">favorite</string>
     <string name="no_favorite_user">No Favorite User</string>
     <string name="save_favorite">Save Favorite\n</string>
 </resources>

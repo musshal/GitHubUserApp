@@ -19,7 +19,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        buildConfigField "String", "GITHUB_API", "\"https://api.github.com/\""
+        buildConfigField "String", "GITHUB_API", "\"Bearer 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\""
     }
 
     buildTypes {

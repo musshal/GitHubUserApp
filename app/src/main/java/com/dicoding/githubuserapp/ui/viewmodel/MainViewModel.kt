@@ -11,7 +11,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel: ViewModel() {
+class MainViewModel : ViewModel() {
     private val _users = MutableLiveData<ArrayList<UsersItem>>()
     val users: LiveData<ArrayList<UsersItem>> = _users
 

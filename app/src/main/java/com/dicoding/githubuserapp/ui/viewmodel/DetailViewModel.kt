@@ -1,16 +1,19 @@
 package com.dicoding.githubuserapp.ui.viewmodel
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.dicoding.githubuserapp.data.local.entity.FavoriteUser
 import com.dicoding.githubuserapp.data.remote.retrofit.ApiConfig
 import com.dicoding.githubuserapp.data.remote.response.UserResponse
+import com.dicoding.githubuserapp.repository.FavoriteUserRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailViewModel : ViewModel() {
+class DetailViewModel(application: Application) : ViewModel() {
     private val _user = MutableLiveData<UserResponse>()
     val user: LiveData<UserResponse> = _user
 
@@ -19,6 +22,8 @@ class DetailViewModel : ViewModel() {
 
     private val _isError = MutableLiveData<Boolean>()
     val isError: LiveData<Boolean> = _isError
+
+    private val favoriteUserRepository: FavoriteUserRepository = FavoriteUserRepository(application)
 
     companion object {
         private const val TAG = "DetailViewModel"
@@ -59,4 +64,14 @@ class DetailViewModel : ViewModel() {
             }
         })
     }
+
+    fun insert(favoriteUser: FavoriteUser) {
+        favoriteUserRepository.insert(favoriteUser)
+    }
+
+    fun delete(favoriteUser: FavoriteUser) {
+        favoriteUserRepository.delete(favoriteUser)
+    }
+
+    fun isFavorited(login: String): LiveData<Boolean> = favoriteUserRepository.isFavorited(login)
 }
