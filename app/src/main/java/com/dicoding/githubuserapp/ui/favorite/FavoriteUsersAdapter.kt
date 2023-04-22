@@ -1,4 +1,4 @@
-package com.dicoding.githubuserapp.ui.adapter
+package com.dicoding.githubuserapp.ui.favorite
 
 import android.view.LayoutInflater
 import android.view.View
@@ -39,7 +39,7 @@ class FavoriteUsersAdapter(private val listener: OnFavoriteUserClick? = null) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): FavoriteUsersAdapter.ViewHolder {
+    ): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(
             R.layout.item_row_user,
             parent,

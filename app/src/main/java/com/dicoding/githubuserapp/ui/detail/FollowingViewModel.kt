@@ -1,4 +1,4 @@
-package com.dicoding.githubuserapp.ui.viewmodel
+package com.dicoding.githubuserapp.ui.detail
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -10,9 +10,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class FollowerViewModel : ViewModel() {
-    private val _followers = MutableLiveData<ArrayList<UsersItem>>()
-    val followers: LiveData<ArrayList<UsersItem>> = _followers
+class FollowingViewModel : ViewModel() {
+    private val _followings = MutableLiveData<ArrayList<UsersItem>>()
+    val followings: LiveData<ArrayList<UsersItem>> = _followings
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -21,14 +21,14 @@ class FollowerViewModel : ViewModel() {
     val isError: LiveData<Boolean> = _isError
 
     companion object {
-        private const val TAG = "FollowerViewModel"
+        private const val TAG = "FollowingViewModel"
     }
 
-    fun getUserFollowers(username: String) {
+    fun getUserFollowings(username: String) {
         _isLoading.value = true
         _isError.value = false
 
-        val client = ApiConfig.getApiService().getUserFollowers(username)
+        val client = ApiConfig.getApiService().getUserFollowings(username)
 
         client.enqueue(object : Callback<ArrayList<UsersItem>> {
             override fun onResponse(
@@ -42,7 +42,7 @@ class FollowerViewModel : ViewModel() {
                     val responseBody = response.body()
 
                     if (responseBody != null) {
-                        _followers.value = responseBody
+                        _followings.value = responseBody
                     }
                 } else {
                     _isError.value = true

@@ -3,22 +3,22 @@ package com.dicoding.githubuserapp.helper
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dicoding.githubuserapp.ui.viewmodel.DetailViewModel
-import com.dicoding.githubuserapp.ui.viewmodel.FavoriteViewModel
+import com.dicoding.githubuserapp.ui.detail.DetailViewModel
+import com.dicoding.githubuserapp.ui.favorite.FavoriteViewModel
 
-class ViewModelFactory private constructor(private val application: Application) : ViewModelProvider.NewInstanceFactory() {
+class FavoriteViewModelFactory private constructor(private val application: Application) : ViewModelProvider.NewInstanceFactory() {
     companion object {
         @Volatile
-        private var INSTANCE: ViewModelFactory? = null
+        private var INSTANCE: FavoriteViewModelFactory? = null
 
         @JvmStatic
-        fun getInstance(application: Application): ViewModelFactory {
+        fun getInstance(application: Application): FavoriteViewModelFactory {
             if (INSTANCE == null) {
-                synchronized(ViewModelFactory::class.java) {
-                    INSTANCE = ViewModelFactory(application)
+                synchronized(FavoriteViewModelFactory::class.java) {
+                    INSTANCE = FavoriteViewModelFactory(application)
                 }
             }
-            return INSTANCE as ViewModelFactory
+            return INSTANCE as FavoriteViewModelFactory
         }
     }
 
@@ -29,6 +29,7 @@ class ViewModelFactory private constructor(private val application: Application)
         } else if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
             return DetailViewModel(application) as T
         }
+
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }
 }

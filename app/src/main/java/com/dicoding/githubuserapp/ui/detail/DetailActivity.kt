@@ -1,11 +1,10 @@
-package com.dicoding.githubuserapp.ui.activity
+package com.dicoding.githubuserapp.ui.detail
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -15,18 +14,16 @@ import com.bumptech.glide.Glide
 import com.dicoding.githubuserapp.data.remote.response.UsersItem
 import com.dicoding.githubuserapp.R
 import com.dicoding.githubuserapp.data.local.entity.FavoriteUser
-import com.dicoding.githubuserapp.ui.adapter.SectionsPagerAdapter
 import com.dicoding.githubuserapp.databinding.ActivityDetailBinding
 import com.dicoding.githubuserapp.data.remote.response.UserResponse
-import com.dicoding.githubuserapp.helper.ViewModelFactory
-import com.dicoding.githubuserapp.ui.viewmodel.DetailViewModel
+import com.dicoding.githubuserapp.helper.FavoriteViewModelFactory
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailActivity : AppCompatActivity() {
 
-    private lateinit var detailViewModel: DetailViewModel
     private lateinit var binding: ActivityDetailBinding
+    private lateinit var detailViewModel: DetailViewModel
     private lateinit var favoriteUser: FavoriteUser
 
     companion object {
@@ -36,7 +33,7 @@ class DetailActivity : AppCompatActivity() {
             R.string.tab_text_2
         )
 
-        const val KEY_USER = "key_user"
+        const val EXTRA_USER = "extra_user"
         const val EXTRA_USERNAME = "extra_username"
     }
 
@@ -45,9 +42,9 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val userData = intent.getParcelableExtra(EXTRA_USER) as UsersItem?
         val username = intent.getStringExtra(EXTRA_USERNAME).toString()
         val sectionsPagerAdapter = SectionsPagerAdapter(this, username)
-
         val viewPager: ViewPager2 = findViewById(R.id.view_pager)
         val tabs: TabLayout = findViewById(R.id.tabs)
 
@@ -58,12 +55,11 @@ class DetailActivity : AppCompatActivity() {
         }.attach()
 
         supportActionBar?.elevation = 0f
-        supportActionBar?.setTitle("Detail User")
+        supportActionBar?.title = "Detail User"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        detailViewModel = obtainViewModel(this)
 
-        val userData = intent.getParcelableExtra(KEY_USER) as UsersItem?
-        detailViewModel = obtainViewModel(this@DetailActivity)
         if (userData != null) {
             detailViewModel.getUser(userData.login)
 
@@ -77,11 +73,12 @@ class DetailActivity : AppCompatActivity() {
 
             detailViewModel.user.observe(this) {
                 setUserData(it)
+
                 favoriteUser = FavoriteUser(it.login, it.avatarUrl)
             }
         }
 
-        binding.fabAdd.apply {
+        binding.fabFavorite.apply {
             setOnClickListener {
                 if (tag == "favorite") {
                     detailViewModel.delete(favoriteUser)
@@ -99,52 +96,48 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setFavoriteUser(value: Boolean) {
-        binding.fabAdd.apply {
+        binding.fabFavorite.apply {
             if (value) {
                 tag = "favorite"
-                setImageDrawable(
-                    ContextCompat.getDrawable(
-                        this@DetailActivity,
-                        R.drawable.baseline_favorite_24
-                    )
-                )
+                setImageDrawable(ContextCompat.getDrawable(
+                    this@DetailActivity,
+                    R.drawable.baseline_favorite_24
+                ))
             } else {
                 tag = ""
-                setImageDrawable(
-                    ContextCompat.getDrawable(
-                        this@DetailActivity,
-                        R.drawable.baseline_favorite_border_24
-                    )
-                )
+                setImageDrawable(ContextCompat.getDrawable(
+                    this@DetailActivity,
+                    R.drawable.baseline_favorite_border_24
+                ))
             }
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
-
         inflater.inflate(R.menu.menu, menu)
-
         return true
     }
 
     @SuppressLint("SetTextI18n")
     private fun setUserData(user: UserResponse) {
-        Glide
-            .with(binding.civUserDetail)
-            .load(user.avatarUrl)
-            .into(findViewById(R.id.civ_user_detail))
+        with(binding) {
+            Glide
+                .with(this.root.context)
+                .load(user.avatarUrl)
+                .into(findViewById(R.id.civ_user_detail))
 
-        findViewById<TextView>(R.id.tv_name_detail).text = user.name
-        findViewById<TextView>(R.id.tv_username_detail).text = user.login
-        findViewById<TextView>(R.id.tv_bio_detail).text = "Bio: ${user.bio}"
-        findViewById<TextView>(R.id.tv_location_detail).text = "Loc: ${user.location}"
-        findViewById<TextView>(R.id.tv_repositories_detail).text = "Repos: ${user.publicRepos}"
-        findViewById<TextView>(R.id.tv_following_detail).text = "Follower: ${user.following}"
-        findViewById<TextView>(R.id.tv_followers_detail).text = "Following: ${user.followers}"
+            findViewById<TextView>(R.id.tv_name_detail).text = user.name
+            findViewById<TextView>(R.id.tv_username_detail).text = user.login
+            findViewById<TextView>(R.id.tv_bio_detail).text = "Bio: ${user.bio}"
+            findViewById<TextView>(R.id.tv_location_detail).text = "Loc: ${user.location}"
+            findViewById<TextView>(R.id.tv_repositories_detail).text = "Repos: ${user.publicRepos}"
+            findViewById<TextView>(R.id.tv_following_detail).text = "Follower: ${user.following}"
+            findViewById<TextView>(R.id.tv_followers_detail).text = "Following: ${user.followers}"
+        }
 
         favoriteUser = FavoriteUser(user.login, user.avatarUrl)
-        detailViewModel.isFavorited(user.login).observe(this) {
+        detailViewModel.isFavorited(favoriteUser.login).observe(this) {
             setFavoriteUser(it)
         }
     }
@@ -158,8 +151,8 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun obtainViewModel(activity: AppCompatActivity): DetailViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
+        val factory = FavoriteViewModelFactory.getInstance(activity.application)
 
-        return ViewModelProvider(activity, factory).get(DetailViewModel::class.java)
+        return ViewModelProvider(activity, factory)[DetailViewModel::class.java]
     }
 }

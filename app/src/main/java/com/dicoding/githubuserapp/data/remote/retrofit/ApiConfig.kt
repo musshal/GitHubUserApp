@@ -1,8 +1,6 @@
 package com.dicoding.githubuserapp.data.remote.retrofit
 
-import com.dicoding.githubuserapp.utils.Constants
 import com.dicoding.githubuserapp.BuildConfig
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,21 +15,9 @@ class ApiConfig {
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
             }
 
-            val authInterceptor = Interceptor { chain ->
-                val req = chain.request()
-                val requestHeaders = req.newBuilder()
-                    .addHeader(Constants.TYPE_HEADERS, BuildConfig.GITHUB_API)
-                    .build()
-                chain.proceed(requestHeaders)
-            }
-
-            val client = OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .addInterceptor(authInterceptor)
-                .build()
-
+            val client = OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
             val retrofit = Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
+                .baseUrl(BuildConfig.GITHUB_API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

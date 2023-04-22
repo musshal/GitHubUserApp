@@ -1,4 +1,4 @@
-package com.dicoding.githubuserapp.ui.viewmodel
+package com.dicoding.githubuserapp.ui.detail
 
 import android.app.Application
 import android.util.Log

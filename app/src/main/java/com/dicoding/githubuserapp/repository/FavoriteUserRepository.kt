@@ -7,7 +7,7 @@ import com.dicoding.githubuserapp.data.local.room.FavoriteUserRoomDatabase
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class FavoriteUserRepository(application: Application){
+class FavoriteUserRepository(application: Application) {
     private val favoriteUserDao: FavoriteUserDao
     private val executorService: ExecutorService = Executors.newSingleThreadExecutor()
 
@@ -26,4 +26,6 @@ class FavoriteUserRepository(application: Application){
     }
 
     fun isFavorited(login: String) = favoriteUserDao.isFavorited(login)
+
+    fun getFavoriteUsers() = favoriteUserDao.getFavoriteUsers()
 }

@@ -1,29 +1,25 @@
-package com.dicoding.githubuserapp.ui.adapter
+package com.dicoding.githubuserapp.ui.main
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.githubuserapp.R
-import com.dicoding.githubuserapp.data.local.entity.FavoriteUser
 import com.dicoding.githubuserapp.data.remote.retrofit.ApiConfig
 import com.dicoding.githubuserapp.data.remote.response.UserResponse
 import com.dicoding.githubuserapp.data.remote.response.UsersItem
-import com.dicoding.githubuserapp.ui.activity.DetailActivity
+import com.dicoding.githubuserapp.ui.detail.DetailActivity
 import de.hdodenhof.circleimageview.CircleImageView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UsersAdapter(private val users: ArrayList<UsersItem>)
-    : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
+class MainUsersAdapter(private val users: ArrayList<UsersItem>)
+    : RecyclerView.Adapter<MainUsersAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -80,7 +76,7 @@ class UsersAdapter(private val users: ArrayList<UsersItem>)
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context, DetailActivity::class.java)
 
-                intent.putExtra(DetailActivity.KEY_USER, user)
+                intent.putExtra(DetailActivity.EXTRA_USER, user)
                 intent.putExtra(DetailActivity.EXTRA_USERNAME, user.login)
                 itemView.context.startActivity(intent)
             }

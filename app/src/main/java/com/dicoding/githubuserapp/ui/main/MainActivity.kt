@@ -1,4 +1,4 @@
-package com.dicoding.githubuserapp.ui.activity
+package com.dicoding.githubuserapp.ui.main
 
 import android.app.SearchManager
 import android.content.Context
@@ -13,13 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.githubuserapp.*
 import com.dicoding.githubuserapp.data.remote.response.UsersItem
 import com.dicoding.githubuserapp.databinding.ActivityMainBinding
-import com.dicoding.githubuserapp.ui.adapter.UsersAdapter
-import com.dicoding.githubuserapp.ui.viewmodel.MainViewModel
+import com.dicoding.githubuserapp.ui.favorite.FavoriteActivity
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var adapter: UsersAdapter
+    private lateinit var adapter: MainUsersAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
 
-        adapter = UsersAdapter(arrayListOf())
+        adapter = MainUsersAdapter(arrayListOf())
 
         binding.rvUsers.layoutManager = layoutManager
         binding.rvUsers.adapter = adapter
