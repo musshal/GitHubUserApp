@@ -4,21 +4,54 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.githubuserapp.R
+import com.dicoding.githubuserapp.data.local.entity.FavoriteUser
+import com.dicoding.githubuserapp.data.remote.response.UsersItem
 import com.dicoding.githubuserapp.databinding.ActivityFavoriteBinding
+import com.dicoding.githubuserapp.helper.FavoriteViewModelFactory
+import com.dicoding.githubuserapp.ui.adapter.UsersAdapter
 
 class FavoriteActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityFavoriteBinding
+    private lateinit var adapter: FavoriteUsersAdapter
+    private val favoriteViewModel by viewModels<FavoriteViewModel> {
+        FavoriteViewModelFactory.getInstance(application)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFavoriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.setTitle("Favorite User")
+        supportActionBar?.title = "Favorite User"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        showNoData(true)
+        favoriteViewModel.getFavoriteUsers().observe(this) {
+            if (it != null) {
+                adapter.setData(it)
+            }
+        }
+
+//        initObserver()
+
+        adapter = FavoriteUsersAdapter(arrayListOf())
+
+        binding.rvUsers.apply {
+            val manager = LinearLayoutManager(this@FavoriteActivity)
+
+            adapter = this@FavoriteActivity.adapter
+            layoutManager = manager
+        }
+
+    }
+
+    private fun initObserver() {
+        favoriteViewModel.getFavoriteUsers().observe(this) {
+            adapter.setData(it)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -37,5 +70,9 @@ class FavoriteActivity : AppCompatActivity() {
 
     private fun showNoData(isFound: Boolean) {
         binding.noData.visibility = if (isFound) View.VISIBLE else View.GONE
+    }
+
+    private fun setFavoriteUsers(favoriteUser: List<FavoriteUser>) {
+        binding.rvUsers.adapter
     }
 }
