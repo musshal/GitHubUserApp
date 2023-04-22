@@ -7,17 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.githubuserapp.R
 import com.dicoding.githubuserapp.data.remote.response.UsersItem
-import com.dicoding.githubuserapp.ui.main.MainUsersAdapter
+import com.dicoding.githubuserapp.ui.adapter.UsersAdapter
 
 class FollowingFragment : Fragment() {
 
-    private lateinit var adapter: MainUsersAdapter
+    private lateinit var adapter: UsersAdapter
     private lateinit var recyclerView: RecyclerView
+    private val followingViewModel by viewModels<FollowingViewModel>()
 
     companion object {
         const val USERNAME = "username"
@@ -35,7 +36,8 @@ class FollowingFragment : Fragment() {
 
         val layoutManager = LinearLayoutManager(context)
 
-        adapter = MainUsersAdapter(arrayListOf())
+        adapter = UsersAdapter(arrayListOf())
+
         recyclerView = view.findViewById(R.id.rv_github_user_followings)
 
         recyclerView.layoutManager = layoutManager
@@ -43,11 +45,11 @@ class FollowingFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
 
         val username = arguments?.getString(USERNAME).toString()
-        val followingViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
-        )[FollowingViewModel::class.java]
 
+        initObserver(view, username)
+    }
+
+    private fun initObserver(view: View, username: String) {
         followingViewModel.getUserFollowings(username)
 
         followingViewModel.isLoading.observe(viewLifecycleOwner) {
@@ -59,12 +61,10 @@ class FollowingFragment : Fragment() {
         }
 
         followingViewModel.followings.observe(viewLifecycleOwner) {
-            setUsersData(it)
+            if (it != null) {
+                setUsersData(it)
+            }
         }
-    }
-
-    private fun setUsersData(users: ArrayList<UsersItem>) {
-        adapter.setData(users)
     }
 
     private fun showLoading(isLoading: Boolean, view: View) {
@@ -77,5 +77,9 @@ class FollowingFragment : Fragment() {
         val errorMessage: TextView = view.findViewById(R.id.errorMessage)
 
         errorMessage.visibility = if (isError) View.VISIBLE else View.GONE
+    }
+
+    private fun setUsersData(users: ArrayList<UsersItem>) {
+        adapter.setData(users)
     }
 }

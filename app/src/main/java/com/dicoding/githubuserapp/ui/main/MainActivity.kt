@@ -8,55 +8,27 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.githubuserapp.*
 import com.dicoding.githubuserapp.data.remote.response.UsersItem
 import com.dicoding.githubuserapp.databinding.ActivityMainBinding
+import com.dicoding.githubuserapp.ui.adapter.UsersAdapter
 import com.dicoding.githubuserapp.ui.favorite.FavoriteActivity
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var adapter: MainUsersAdapter
+    private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.setTitle("Github Search User")
+        supportActionBar?.title = "Github Search User"
 
-        val layoutManager = LinearLayoutManager(this)
-
-        adapter = MainUsersAdapter(arrayListOf())
-
-        binding.rvUsers.layoutManager = layoutManager
-        binding.rvUsers.adapter = adapter
-        binding.rvUsers.setHasFixedSize(true)
-
-        val mainViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
-        )[MainViewModel::class.java]
-
-        mainViewModel.isLoading.observe(this) {
-            showLoading(it)
-        }
-
-        mainViewModel.isError.observe(this) {
-            showError(it)
-        }
-
-        mainViewModel.isFound.observe(this) {
-            showNotFound(it)
-        }
-
-        mainViewModel.users.observe(this) { users ->
-            setUsersData(users)
-        }
-
-
+        initObserver()
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = findViewById<androidx.appcompat.widget.SearchView>(R.id.sv_user)
@@ -66,30 +38,25 @@ class MainActivity : AppCompatActivity() {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         searchView.setOnQueryTextListener(
             object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query != null) {
-                    mainViewModel.findUsers(query)
-                    mainViewModel.users.observe(this@MainActivity) { users ->
-                        setUsersData(users)
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    if (query != null) {
+                        mainViewModel.findUsers(query)
                     }
+
+                    searchView.clearFocus()
+
+                    return true
                 }
 
-                searchView.clearFocus()
-
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText.equals("")) {
-                    mainViewModel.getUsers()
-                    mainViewModel.users.observe(this@MainActivity) { users ->
-                        setUsersData(users)
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if (newText.equals("")) {
+                        mainViewModel.getUsers()
                     }
-                }
 
-                return false
+                    return false
+                }
             }
-        })
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -109,8 +76,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUsersData(users: ArrayList<UsersItem>) {
-        adapter.setData(users)
+    private fun initObserver() {
+        mainViewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
+
+        mainViewModel.isError.observe(this) {
+            showError(it)
+        }
+
+        mainViewModel.isFound.observe(this) {
+            showNotFound(it)
+        }
+
+        mainViewModel.users.observe(this) { users ->
+            if (users != null) {
+                setUsers(users)
+            }
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -123,5 +106,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun showNotFound(isFound: Boolean) {
         binding.notFound.visibility = if (isFound) View.VISIBLE else View.GONE
+    }
+
+    private fun setUsers(users: ArrayList<UsersItem>) {
+        binding.rvUsers.adapter = UsersAdapter(users)
+        binding.rvUsers.layoutManager = LinearLayoutManager(this)
     }
 }

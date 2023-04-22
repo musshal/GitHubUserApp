@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.View
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -23,7 +24,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
-    private lateinit var detailViewModel: DetailViewModel
+    private val detailViewModel by viewModels<DetailViewModel> {
+        FavoriteViewModelFactory.getInstance(
+            application
+        )
+    }
     private lateinit var favoriteUser: FavoriteUser
 
     companion object {
@@ -34,7 +39,6 @@ class DetailActivity : AppCompatActivity() {
         )
 
         const val EXTRA_USER = "extra_user"
-        const val EXTRA_USERNAME = "extra_username"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,40 +46,26 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val userData = intent.getParcelableExtra(EXTRA_USER) as UsersItem?
-        val username = intent.getStringExtra(EXTRA_USERNAME).toString()
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, username)
-        val viewPager: ViewPager2 = findViewById(R.id.view_pager)
-        val tabs: TabLayout = findViewById(R.id.tabs)
+        val user = intent.getParcelableExtra(EXTRA_USER) as UsersItem?
 
-        viewPager.adapter = sectionsPagerAdapter
+        if (user != null) {
+            val sectionsPagerAdapter = SectionsPagerAdapter(this, user.login)
+            val viewPager: ViewPager2 = findViewById(R.id.view_pager)
+            val tabs: TabLayout = findViewById(R.id.tabs)
 
-        TabLayoutMediator(tabs, viewPager) { tab, position ->
-            tab.text = resources.getString(TAB_TITLES[position])
-        }.attach()
+            viewPager.adapter = sectionsPagerAdapter
+
+            TabLayoutMediator(tabs, viewPager) { tab, position ->
+                tab.text = resources.getString(TAB_TITLES[position])
+            }.attach()
+        }
 
         supportActionBar?.elevation = 0f
         supportActionBar?.title = "Detail User"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        detailViewModel = obtainViewModel(this)
-
-        if (userData != null) {
-            detailViewModel.getUser(userData.login)
-
-            detailViewModel.isLoading.observe(this) {
-                showLoading(it)
-            }
-
-            detailViewModel.isError.observe(this) {
-                showError(it)
-            }
-
-            detailViewModel.user.observe(this) {
-                setUserData(it)
-
-                favoriteUser = FavoriteUser(it.login, it.avatarUrl)
-            }
+        if (user != null) {
+            initObserver(user)
         }
 
         binding.fabFavorite.apply {
@@ -95,28 +85,42 @@ class DetailActivity : AppCompatActivity() {
         return true
     }
 
-    private fun setFavoriteUser(value: Boolean) {
-        binding.fabFavorite.apply {
-            if (value) {
-                tag = "favorite"
-                setImageDrawable(ContextCompat.getDrawable(
-                    this@DetailActivity,
-                    R.drawable.baseline_favorite_24
-                ))
-            } else {
-                tag = ""
-                setImageDrawable(ContextCompat.getDrawable(
-                    this@DetailActivity,
-                    R.drawable.baseline_favorite_border_24
-                ))
-            }
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu, menu)
         return true
+    }
+
+    private fun initObserver(user: UsersItem) {
+        detailViewModel.getUser(user.login)
+
+        detailViewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
+
+        detailViewModel.isError.observe(this) {
+            showError(it)
+        }
+
+        detailViewModel.user.observe(this) {
+            if (it != null) {
+                setUserData(it)
+                favoriteUser = FavoriteUser(it.login, it.avatarUrl)
+                showFavoriteButton(true)
+            }
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showError(isError: Boolean) {
+        binding.errorMessage.visibility = if (isError) View.VISIBLE else View.GONE
+    }
+
+    private fun showFavoriteButton(isLoading: Boolean) {
+        binding.fabFavorite.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     @SuppressLint("SetTextI18n")
@@ -142,17 +146,21 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
-
-    private fun showError(isError: Boolean) {
-        binding.errorMessage.visibility = if (isError) View.VISIBLE else View.GONE
-    }
-
-    private fun obtainViewModel(activity: AppCompatActivity): DetailViewModel {
-        val factory = FavoriteViewModelFactory.getInstance(activity.application)
-
-        return ViewModelProvider(activity, factory)[DetailViewModel::class.java]
+    private fun setFavoriteUser(value: Boolean) {
+        binding.fabFavorite.apply {
+            if (value) {
+                tag = "favorite"
+                setImageDrawable(ContextCompat.getDrawable(
+                    this@DetailActivity,
+                    R.drawable.baseline_favorite_24
+                ))
+            } else {
+                tag = ""
+                setImageDrawable(ContextCompat.getDrawable(
+                    this@DetailActivity,
+                    R.drawable.baseline_favorite_border_24
+                ))
+            }
+        }
     }
 }

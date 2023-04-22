@@ -11,8 +11,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class FollowerViewModel : ViewModel() {
-    private val _followers = MutableLiveData<ArrayList<UsersItem>>()
-    val followers: LiveData<ArrayList<UsersItem>> = _followers
+    private val _followers = MutableLiveData<ArrayList<UsersItem>?>()
+    val followers: MutableLiveData<ArrayList<UsersItem>?> = _followers
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading

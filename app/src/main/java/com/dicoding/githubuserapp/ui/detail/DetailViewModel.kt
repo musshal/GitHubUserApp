@@ -14,8 +14,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class DetailViewModel(application: Application) : ViewModel() {
-    private val _user = MutableLiveData<UserResponse>()
-    val user: LiveData<UserResponse> = _user
+    private val _user = MutableLiveData<UserResponse?>()
+    val user: MutableLiveData<UserResponse?> = _user
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading

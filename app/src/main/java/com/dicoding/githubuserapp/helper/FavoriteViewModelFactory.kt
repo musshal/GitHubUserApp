@@ -18,6 +18,7 @@ class FavoriteViewModelFactory private constructor(private val application: Appl
                     INSTANCE = FavoriteViewModelFactory(application)
                 }
             }
+
             return INSTANCE as FavoriteViewModelFactory
         }
     }

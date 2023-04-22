@@ -1,4 +1,4 @@
-package com.dicoding.githubuserapp.ui.main
+package com.dicoding.githubuserapp.ui.adapter
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -18,8 +18,26 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainUsersAdapter(private val users: ArrayList<UsersItem>)
-    : RecyclerView.Adapter<MainUsersAdapter.ViewHolder>() {
+class UsersAdapter(private val users: ArrayList<UsersItem>)
+    : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
+
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val civUser: CircleImageView = view.findViewById(R.id.civ_user)
+        val tvName: TextView = view.findViewById(R.id.tv_name)
+        val tvUsername: TextView = view.findViewById(R.id.tv_username)
+        val tvBio: TextView = view.findViewById(R.id.tv_bio)
+        val tvLocation: TextView = view.findViewById(R.id.tv_location)
+        val tvRepositories: TextView = view.findViewById(R.id.tv_repositories)
+        val tvFollowers: TextView = view.findViewById(R.id.tv_followers)
+
+        fun bind(user: UsersItem) {
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, DetailActivity::class.java)
+                intent.putExtra(DetailActivity.EXTRA_USER, user)
+                itemView.context.startActivity(intent)
+            }
+        }
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -31,8 +49,7 @@ class MainUsersAdapter(private val users: ArrayList<UsersItem>)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = users[position]
-        val username = user.login
-        val client = ApiConfig.getApiService().getUser(username)
+        val client = ApiConfig.getApiService().getUser(user.login)
 
         client.enqueue(object : Callback<UserResponse> {
             @SuppressLint("SetTextI18n")
@@ -42,7 +59,6 @@ class MainUsersAdapter(private val users: ArrayList<UsersItem>)
 
                     if (responseBody != null) {
                         holder.tvName.text = responseBody.name
-
                         holder.tvBio.text = "Bio: ${responseBody.bio}"
                         holder.tvLocation.text = "Loc: ${responseBody.location}"
                         holder.tvRepositories.text = "Repo: ${responseBody.publicRepos}"
@@ -57,31 +73,10 @@ class MainUsersAdapter(private val users: ArrayList<UsersItem>)
         Glide.with(holder.itemView.context).load(user.avatarUrl).into(holder.civUser)
 
         holder.tvUsername.text = user.login
-
         holder.bind(user)
     }
 
     override fun getItemCount(): Int = users.size
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val civUser: CircleImageView = view.findViewById(R.id.civ_user)
-        val tvName: TextView = view.findViewById(R.id.tv_name)
-        val tvUsername: TextView = view.findViewById(R.id.tv_username)
-        val tvBio: TextView = view.findViewById(R.id.tv_bio)
-        val tvLocation: TextView = view.findViewById(R.id.tv_location)
-        val tvRepositories: TextView = view.findViewById(R.id.tv_repositories)
-        val tvFollowers: TextView = view.findViewById(R.id.tv_followers)
-
-        fun bind(user: UsersItem) {
-            itemView.setOnClickListener {
-                val intent = Intent(itemView.context, DetailActivity::class.java)
-
-                intent.putExtra(DetailActivity.EXTRA_USER, user)
-                intent.putExtra(DetailActivity.EXTRA_USERNAME, user.login)
-                itemView.context.startActivity(intent)
-            }
-        }
-    }
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(usersData: ArrayList<UsersItem>) {
