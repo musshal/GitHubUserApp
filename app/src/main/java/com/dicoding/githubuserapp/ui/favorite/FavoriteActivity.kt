@@ -29,13 +29,7 @@ class FavoriteActivity : AppCompatActivity() {
         supportActionBar?.title = "Favorite User"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        favoriteViewModel.getFavoriteUsers().observe(this) {
-            if (it != null) {
-                adapter.setData(it)
-            }
-        }
-
-//        initObserver()
+        initObserver()
 
         adapter = FavoriteUsersAdapter(arrayListOf())
 
@@ -50,7 +44,13 @@ class FavoriteActivity : AppCompatActivity() {
 
     private fun initObserver() {
         favoriteViewModel.getFavoriteUsers().observe(this) {
-            adapter.setData(it)
+            val items = arrayListOf<UsersItem>()
+            it.map {
+                val item = UsersItem(login = it.login, avatarUrl = it.avatarUrl.toString())
+                items.add(item)
+            }
+
+            binding.rvUsers.adapter = UsersAdapter(items)
         }
     }
 
@@ -70,9 +70,5 @@ class FavoriteActivity : AppCompatActivity() {
 
     private fun showNoData(isFound: Boolean) {
         binding.noData.visibility = if (isFound) View.VISIBLE else View.GONE
-    }
-
-    private fun setFavoriteUsers(favoriteUser: List<FavoriteUser>) {
-        binding.rvUsers.adapter
     }
 }

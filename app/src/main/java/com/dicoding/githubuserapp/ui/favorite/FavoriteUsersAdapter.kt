@@ -44,17 +44,13 @@ class FavoriteUsersAdapter(private val favoriteUsers: ArrayList<FavoriteUser>) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(
-            R.layout.item_row_user,
-            parent,
-            false)
-        )
-    }
+    ) = ViewHolder(LayoutInflater.from(parent.context).inflate(
+        R.layout.item_row_user,
+        parent,
+        false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val favoriteUser = favoriteUsers[position]
-
         val client = ApiConfig.getApiService().getUser(favoriteUser.login)
 
         client.enqueue(object : Callback<UserResponse> {
@@ -86,12 +82,9 @@ class FavoriteUsersAdapter(private val favoriteUsers: ArrayList<FavoriteUser>) :
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(usersData: List<FavoriteUser>) {
-        val diffCallback = FavoriteUserDiffCallback(favoriteUsers, usersData)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-
         favoriteUsers.clear()
         favoriteUsers.addAll(usersData)
 
-        diffResult.dispatchUpdatesTo(this)
+        notifyDataSetChanged()
     }
 }
