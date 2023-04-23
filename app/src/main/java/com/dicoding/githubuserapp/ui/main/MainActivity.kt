@@ -9,12 +9,23 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.githubuserapp.*
+import com.dicoding.githubuserapp.data.local.datastore.SettingPreferences
 import com.dicoding.githubuserapp.data.remote.response.UsersItem
 import com.dicoding.githubuserapp.databinding.ActivityMainBinding
+import com.dicoding.githubuserapp.helper.SettingViewModelFactory
 import com.dicoding.githubuserapp.ui.adapter.UsersAdapter
 import com.dicoding.githubuserapp.ui.favorite.FavoriteActivity
+import com.dicoding.githubuserapp.ui.setting.SettingActivity
+import com.dicoding.githubuserapp.ui.setting.SettingViewModel
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "setting")
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +39,16 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Github Search User"
 
+        val settingPreferences = SettingPreferences.getInstance(dataStore)
+        val settingViewModel = ViewModelProvider(this, SettingViewModelFactory(settingPreferences))[SettingViewModel::class.java]
+        settingViewModel.getThemeSetting().observe(this) { isDarkModeActive: Boolean ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
+
         initObserver()
         initSearch()
     }
@@ -40,6 +61,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.setting -> {
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
+                true
+            }
             R.id.favorite -> {
                 val intent = Intent(this, FavoriteActivity::class.java)
                 startActivity(intent)

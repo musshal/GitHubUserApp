@@ -16,4 +16,5 @@
     <string name="favorite">favorite</string>
     <string name="no_favorite_user">No Favorite User</string>
     <string name="save_favorite">Save Favorite\n</string>
+    <string name="dark_mode">Dark Mode</string>
 </resources>

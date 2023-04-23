@@ -1,8 +1,10 @@
 package com.dicoding.githubuserapp.ui.detail
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -18,6 +20,8 @@ import com.dicoding.githubuserapp.databinding.ActivityDetailBinding
 import com.dicoding.githubuserapp.data.remote.response.UserResponse
 import com.dicoding.githubuserapp.helper.FavoriteViewModelFactory
 import com.dicoding.githubuserapp.ui.adapter.SectionsPagerAdapter
+import com.dicoding.githubuserapp.ui.favorite.FavoriteActivity
+import com.dicoding.githubuserapp.ui.setting.SettingActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -27,7 +31,8 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var favoriteUser: FavoriteUser
     private val detailViewModel by viewModels<DetailViewModel> {
         FavoriteViewModelFactory.getInstance(
-            application
+            application,
+
         )
     }
 
@@ -78,6 +83,22 @@ class DetailActivity : AppCompatActivity() {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.setting -> {
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.favorite -> {
+                val intent = Intent(this, FavoriteActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> true
+        }
     }
 
     private fun initViewPager(user: UsersItem) {

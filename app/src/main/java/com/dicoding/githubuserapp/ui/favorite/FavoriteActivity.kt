@@ -1,8 +1,10 @@
 package com.dicoding.githubuserapp.ui.favorite
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,6 +13,7 @@ import com.dicoding.githubuserapp.data.remote.response.UsersItem
 import com.dicoding.githubuserapp.databinding.ActivityFavoriteBinding
 import com.dicoding.githubuserapp.helper.FavoriteViewModelFactory
 import com.dicoding.githubuserapp.ui.adapter.UsersAdapter
+import com.dicoding.githubuserapp.ui.setting.SettingActivity
 
 class FavoriteActivity : AppCompatActivity() {
 
@@ -42,6 +45,22 @@ class FavoriteActivity : AppCompatActivity() {
         inflater.inflate(R.menu.menu, menu)
 
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.setting -> {
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.favorite -> {
+                val intent = Intent(this, FavoriteActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> true
+        }
     }
 
     private fun initObserver() {
