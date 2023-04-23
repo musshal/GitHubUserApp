@@ -134,8 +134,8 @@ class DetailActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tv_bio_detail).text = "Bio: ${user.bio}"
         findViewById<TextView>(R.id.tv_location_detail).text = "Loc: ${user.location}"
         findViewById<TextView>(R.id.tv_repositories_detail).text = "Repos: ${user.publicRepos}"
-        findViewById<TextView>(R.id.tv_following_detail).text = "Follower: ${user.following}"
-        findViewById<TextView>(R.id.tv_followers_detail).text = "Following: ${user.followers}"
+        findViewById<TextView>(R.id.tv_following_detail).text = "Following: ${user.following}"
+        findViewById<TextView>(R.id.tv_followers_detail).text = "Follower: ${user.followers}"
 
         favoriteUser = FavoriteUser(user.login, user.avatarUrl)
         detailViewModel.isFavorited(favoriteUser.login).observe(this) {
