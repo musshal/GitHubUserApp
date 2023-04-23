@@ -69,12 +69,6 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-
-        return true
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu, menu)
@@ -91,6 +85,10 @@ class DetailActivity : AppCompatActivity() {
             R.id.favorite -> {
                 val intent = Intent(this, FavoriteActivity::class.java)
                 startActivity(intent)
+                true
+            }
+            android.R.id.home -> {
+                onBackPressed()
                 true
             }
             else -> true

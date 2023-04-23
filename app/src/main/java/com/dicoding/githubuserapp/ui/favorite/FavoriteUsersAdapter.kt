@@ -78,12 +78,4 @@ class FavoriteUsersAdapter(private val users: ArrayList<UsersItem>)
     }
 
     override fun getItemCount(): Int = users.size
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun setData(usersData: ArrayList<UsersItem>) {
-        users.clear()
-        users.addAll(usersData)
-
-        notifyDataSetChanged()
-    }
 }

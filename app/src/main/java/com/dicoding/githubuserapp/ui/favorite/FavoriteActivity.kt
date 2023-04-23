@@ -26,16 +26,11 @@ class FavoriteActivity : AppCompatActivity() {
         binding = ActivityFavoriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.elevation = 0f
         supportActionBar?.title = "Favorite User"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         initObserver()
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-
-        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -53,9 +48,8 @@ class FavoriteActivity : AppCompatActivity() {
                 startActivity(intent)
                 true
             }
-            R.id.favorite -> {
-                val intent = Intent(this, FavoriteActivity::class.java)
-                startActivity(intent)
+            android.R.id.home -> {
+                onBackPressed()
                 true
             }
             else -> true
@@ -67,13 +61,12 @@ class FavoriteActivity : AppCompatActivity() {
             val favoriteUsers = arrayListOf<UsersItem>()
 
             favoriteUser.map {
-                val user = UsersItem(login = it.login.toString(), avatarUrl = it.avatarUrl.toString())
+                val user = UsersItem(it.login, it.avatarUrl.toString())
                 favoriteUsers.add(user)
             }
 
             if (favoriteUser.isEmpty()) {
                 setFavoriteUsers(favoriteUsers)
-
                 binding.noData.visibility = View.VISIBLE
             } else {
                 setFavoriteUsers(favoriteUsers)

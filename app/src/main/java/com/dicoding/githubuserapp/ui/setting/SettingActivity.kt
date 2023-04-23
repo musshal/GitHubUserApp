@@ -26,6 +26,35 @@ class SettingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
 
+        supportActionBar?.elevation = 0f
+        supportActionBar?.title = "Setting"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        initTheme()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.favorite -> {
+                val intent = Intent(this, FavoriteActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> true
+        }
+    }
+
+    private fun initTheme() {
         val switchTheme = findViewById<SwitchMaterial>(R.id.switch_theme)
         val settingPreferences = SettingPreferences.getInstance(dataStore)
         val settingViewModel = ViewModelProvider(this, SettingViewModelFactory(settingPreferences))[SettingViewModel::class.java]
@@ -39,32 +68,9 @@ class SettingActivity : AppCompatActivity() {
                 switchTheme.isChecked = false
             }
         }
+
         switchTheme.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             settingViewModel.saveThemeSetting(isChecked)
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.setting -> {
-                val intent = Intent(this, SettingActivity::class.java)
-                startActivity(intent)
-                true
-            }
-
-            R.id.favorite -> {
-                val intent = Intent(this, FavoriteActivity::class.java)
-                startActivity(intent)
-                true
-            }
-
-            else -> true
         }
     }
 }
