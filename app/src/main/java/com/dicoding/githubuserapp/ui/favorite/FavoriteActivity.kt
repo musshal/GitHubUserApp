@@ -7,7 +7,6 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.githubuserapp.R
-import com.dicoding.githubuserapp.data.local.entity.FavoriteUser
 import com.dicoding.githubuserapp.data.remote.response.UsersItem
 import com.dicoding.githubuserapp.databinding.ActivityFavoriteBinding
 import com.dicoding.githubuserapp.helper.FavoriteViewModelFactory
@@ -16,7 +15,6 @@ import com.dicoding.githubuserapp.ui.adapter.UsersAdapter
 class FavoriteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFavoriteBinding
-    private lateinit var adapter: FavoriteUsersAdapter
     private val favoriteViewModel by viewModels<FavoriteViewModel> {
         FavoriteViewModelFactory.getInstance(application)
     }
@@ -30,28 +28,6 @@ class FavoriteActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         initObserver()
-
-        adapter = FavoriteUsersAdapter(arrayListOf())
-
-        binding.rvUsers.apply {
-            val manager = LinearLayoutManager(this@FavoriteActivity)
-
-            adapter = this@FavoriteActivity.adapter
-            layoutManager = manager
-        }
-
-    }
-
-    private fun initObserver() {
-        favoriteViewModel.getFavoriteUsers().observe(this) {
-            val items = arrayListOf<UsersItem>()
-            it.map {
-                val item = UsersItem(login = it.login, avatarUrl = it.avatarUrl.toString())
-                items.add(item)
-            }
-
-            binding.rvUsers.adapter = UsersAdapter(items)
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -68,7 +44,27 @@ class FavoriteActivity : AppCompatActivity() {
         return true
     }
 
-    private fun showNoData(isFound: Boolean) {
-        binding.noData.visibility = if (isFound) View.VISIBLE else View.GONE
+    private fun initObserver() {
+        favoriteViewModel.getFavoriteUsers().observe(this) { favoriteUser ->
+            val favoriteUsers = arrayListOf<UsersItem>()
+
+            favoriteUser.map {
+                val user = UsersItem(login = it.login, avatarUrl = it.avatarUrl.toString())
+                favoriteUsers.add(user)
+            }
+
+            if (favoriteUser.isEmpty()) {
+                setFavoriteUsers(favoriteUsers)
+
+                binding.noData.visibility = View.VISIBLE
+            } else {
+                setFavoriteUsers(favoriteUsers)
+            }
+        }
+    }
+
+    private fun setFavoriteUsers(favoriteUsers: ArrayList<UsersItem>) {
+        binding.rvUsers.layoutManager = LinearLayoutManager(this@FavoriteActivity)
+        binding.rvUsers.adapter = UsersAdapter(favoriteUsers)
     }
 }

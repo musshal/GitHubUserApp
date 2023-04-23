@@ -34,19 +34,19 @@ class FollowingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val layoutManager = LinearLayoutManager(context)
-
-        adapter = UsersAdapter(arrayListOf())
-
-        recyclerView = view.findViewById(R.id.rv_github_user_followings)
-
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = adapter
-        recyclerView.setHasFixedSize(true)
-
         val username = arguments?.getString(USERNAME).toString()
 
+        initRecyclerView(view)
         initObserver(view, username)
+    }
+
+    private fun initRecyclerView(view: View) {
+        adapter = UsersAdapter(arrayListOf())
+        recyclerView = view.findViewById(R.id.rv_github_user_followings)
+
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = adapter
+        recyclerView.setHasFixedSize(true)
     }
 
     private fun initObserver(view: View, username: String) {

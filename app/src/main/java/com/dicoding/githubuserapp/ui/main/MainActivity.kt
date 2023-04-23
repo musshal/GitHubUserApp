@@ -29,34 +29,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = "Github Search User"
 
         initObserver()
-
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView = findViewById<androidx.appcompat.widget.SearchView>(R.id.sv_user)
-
-        searchView.queryHint = resources.getString(R.string.search_hint)
-
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        searchView.setOnQueryTextListener(
-            object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    if (query != null) {
-                        mainViewModel.findUsers(query)
-                    }
-
-                    searchView.clearFocus()
-
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    if (newText.equals("")) {
-                        mainViewModel.getUsers()
-                    }
-
-                    return false
-                }
-            }
-        )
+        initSearch()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -111,5 +84,35 @@ class MainActivity : AppCompatActivity() {
     private fun setUsers(users: ArrayList<UsersItem>) {
         binding.rvUsers.adapter = UsersAdapter(users)
         binding.rvUsers.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun initSearch() {
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = findViewById<androidx.appcompat.widget.SearchView>(R.id.sv_user)
+
+        searchView.queryHint = resources.getString(R.string.search_hint)
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        searchView.setOnQueryTextListener(
+            object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    if (query != null) {
+                        mainViewModel.findUsers(query)
+                    }
+
+                    searchView.clearFocus()
+
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if (newText.equals("")) {
+                        mainViewModel.getUsers()
+                    }
+
+                    return false
+                }
+            }
+        )
     }
 }
