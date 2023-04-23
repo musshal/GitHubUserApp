@@ -30,7 +30,7 @@
                         app:fabSize="normal"
                         android:contentDescription="@string/favorite"
                         app:layout_anchorGravity="bottom|end"
-                        app:srcCompat="@drawable/baseline_favorite_border_24"
+                        tools:srcCompat="@drawable/baseline_favorite_border_24"
                         android:visibility="gone"
                         tools:visibility="visible" />
 
