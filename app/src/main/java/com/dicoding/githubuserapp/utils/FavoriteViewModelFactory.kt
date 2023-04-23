@@ -1,4 +1,4 @@
-package com.dicoding.githubuserapp.helper
+package com.dicoding.githubuserapp.utils
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
@@ -7,6 +7,7 @@ import com.dicoding.githubuserapp.ui.detail.DetailViewModel
 import com.dicoding.githubuserapp.ui.favorite.FavoriteViewModel
 
 class FavoriteViewModelFactory private constructor(private val application: Application) : ViewModelProvider.NewInstanceFactory() {
+
     companion object {
         @Volatile
         private var INSTANCE: FavoriteViewModelFactory? = null

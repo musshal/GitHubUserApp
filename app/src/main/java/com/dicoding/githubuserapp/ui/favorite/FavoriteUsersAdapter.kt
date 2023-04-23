@@ -1,4 +1,4 @@
-package com.dicoding.githubuserapp.ui.adapter
+package com.dicoding.githubuserapp.ui.favorite
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -9,17 +9,17 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dicoding.githubuserapp.R
-import com.dicoding.githubuserapp.data.remote.retrofit.ApiConfig
 import com.dicoding.githubuserapp.data.remote.response.UserResponse
 import com.dicoding.githubuserapp.data.remote.response.UsersItem
+import com.dicoding.githubuserapp.data.remote.retrofit.ApiConfig
 import com.dicoding.githubuserapp.ui.detail.DetailActivity
 import de.hdodenhof.circleimageview.CircleImageView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UsersAdapter(private val users: ArrayList<UsersItem>)
-    : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
+class FavoriteUsersAdapter(private val users: ArrayList<UsersItem>)
+    : RecyclerView.Adapter<FavoriteUsersAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val civUser: CircleImageView = view.findViewById(R.id.civ_user)
@@ -42,7 +42,8 @@ class UsersAdapter(private val users: ArrayList<UsersItem>)
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) = ViewHolder(LayoutInflater.from(parent.context).inflate(
+    ) = ViewHolder(
+        LayoutInflater.from(parent.context).inflate(
         R.layout.item_row_user,
         parent,
         false))

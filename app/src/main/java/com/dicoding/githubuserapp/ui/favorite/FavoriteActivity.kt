@@ -11,8 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.githubuserapp.R
 import com.dicoding.githubuserapp.data.remote.response.UsersItem
 import com.dicoding.githubuserapp.databinding.ActivityFavoriteBinding
-import com.dicoding.githubuserapp.helper.FavoriteViewModelFactory
-import com.dicoding.githubuserapp.ui.adapter.UsersAdapter
+import com.dicoding.githubuserapp.utils.FavoriteViewModelFactory
 import com.dicoding.githubuserapp.ui.setting.SettingActivity
 
 class FavoriteActivity : AppCompatActivity() {
@@ -68,7 +67,7 @@ class FavoriteActivity : AppCompatActivity() {
             val favoriteUsers = arrayListOf<UsersItem>()
 
             favoriteUser.map {
-                val user = UsersItem(login = it.login, avatarUrl = it.avatarUrl.toString())
+                val user = UsersItem(login = it.login.toString(), avatarUrl = it.avatarUrl.toString())
                 favoriteUsers.add(user)
             }
 
@@ -84,6 +83,6 @@ class FavoriteActivity : AppCompatActivity() {
 
     private fun setFavoriteUsers(favoriteUsers: ArrayList<UsersItem>) {
         binding.rvUsers.layoutManager = LinearLayoutManager(this@FavoriteActivity)
-        binding.rvUsers.adapter = UsersAdapter(favoriteUsers)
+        binding.rvUsers.adapter = FavoriteUsersAdapter(favoriteUsers)
     }
 }

@@ -19,8 +19,7 @@ import com.dicoding.githubuserapp.*
 import com.dicoding.githubuserapp.data.local.datastore.SettingPreferences
 import com.dicoding.githubuserapp.data.remote.response.UsersItem
 import com.dicoding.githubuserapp.databinding.ActivityMainBinding
-import com.dicoding.githubuserapp.helper.SettingViewModelFactory
-import com.dicoding.githubuserapp.ui.adapter.UsersAdapter
+import com.dicoding.githubuserapp.utils.SettingViewModelFactory
 import com.dicoding.githubuserapp.ui.favorite.FavoriteActivity
 import com.dicoding.githubuserapp.ui.setting.SettingActivity
 import com.dicoding.githubuserapp.ui.setting.SettingViewModel
@@ -108,7 +107,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUsers(users: ArrayList<UsersItem>) {
-        binding.rvUsers.adapter = UsersAdapter(users)
+        binding.rvUsers.adapter = MainUsersAdapter(users)
         binding.rvUsers.layoutManager = LinearLayoutManager(this)
     }
 
