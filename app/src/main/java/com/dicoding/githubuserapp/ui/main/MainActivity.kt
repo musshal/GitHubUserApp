@@ -145,12 +145,9 @@ class MainActivity : AppCompatActivity() {
                 val keypadHeight = screenHeight - rect.bottom
 
                 if (keypadHeight > screenHeight * 0.15) {
-                    // Keyboard is shown
                     isKeyboardShowing = true
                 } else {
-                    // Keyboard is hidden
                     if (isKeyboardShowing) {
-                        // Clear focus from the SearchEditText when the keyboard is hidden
                         searchEditText.clearFocus()
                     }
                     isKeyboardShowing = false
