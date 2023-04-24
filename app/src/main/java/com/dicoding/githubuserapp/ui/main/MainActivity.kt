@@ -157,18 +157,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-        searchEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                val query = s.toString().trim().toLowerCase(Locale.ROOT)
-//                                        mainViewModel.findUsers(query)
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-            }
-        })
 
         searchEditText.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -179,33 +167,6 @@ class MainActivity : AppCompatActivity() {
 
             false
         }
-//        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-//        val searchView = findViewById<androidx.appcompat.widget.SearchView>(R.id.sv_user)
-//
-//        searchView.queryHint = resources.getString(R.string.search_hint)
-//
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-//        searchView.setOnQueryTextListener(
-//            object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-//                override fun onQueryTextSubmit(query: String?): Boolean {
-//                    if (query != null) {
-//                        mainViewModel.findUsers(query)
-//                    }
-//
-//                    searchView.clearFocus()
-//
-//                    return true
-//                }
-//
-//                override fun onQueryTextChange(newText: String?): Boolean {
-//                    if (newText.equals("")) {
-//                        mainViewModel.getUsers()
-//                    }
-//
-//                    return false
-//                }
-//            }
-//        )
     }
 
     private fun onSubmit(userInput: String) {
