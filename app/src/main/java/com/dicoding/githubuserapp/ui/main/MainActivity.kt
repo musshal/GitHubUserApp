@@ -37,7 +37,6 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var searchEditText: TextInputEditText
     private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -126,7 +125,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initSearch() {
-        searchEditText = findViewById(R.id.edReview)
+        val searchEditText: TextInputEditText = findViewById(R.id.edReview)
         val searchLayout = findViewById<TextInputLayout>(R.id.inputLayout)
         searchLayout.setEndIconOnClickListener {
             searchEditText.text?.clear()
