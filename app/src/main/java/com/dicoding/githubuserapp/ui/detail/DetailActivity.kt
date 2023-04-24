@@ -18,7 +18,7 @@ import com.dicoding.githubuserapp.R
 import com.dicoding.githubuserapp.data.local.entity.FavoriteUser
 import com.dicoding.githubuserapp.databinding.ActivityDetailBinding
 import com.dicoding.githubuserapp.data.remote.response.UserResponse
-import com.dicoding.githubuserapp.utils.FavoriteViewModelFactory
+import com.dicoding.githubuserapp.helper.FavoriteViewModelFactory
 import com.dicoding.githubuserapp.ui.favorite.FavoriteActivity
 import com.dicoding.githubuserapp.ui.setting.SettingActivity
 import com.google.android.material.tabs.TabLayout

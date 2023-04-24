@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dicoding.githubuserapp.R
 import com.dicoding.githubuserapp.data.local.datastore.SettingPreferences
 import com.dicoding.githubuserapp.ui.favorite.FavoriteActivity
-import com.dicoding.githubuserapp.utils.SettingViewModelFactory
+import com.dicoding.githubuserapp.helper.SettingViewModelFactory
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "setting")

@@ -5,8 +5,6 @@ import android.content.Intent
 import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -24,19 +22,20 @@ import com.dicoding.githubuserapp.*
 import com.dicoding.githubuserapp.data.local.datastore.SettingPreferences
 import com.dicoding.githubuserapp.data.remote.response.UsersItem
 import com.dicoding.githubuserapp.databinding.ActivityMainBinding
-import com.dicoding.githubuserapp.utils.SettingViewModelFactory
+import com.dicoding.githubuserapp.helper.SettingViewModelFactory
+import com.dicoding.githubuserapp.ui.adapter.UsersAdapter
 import com.dicoding.githubuserapp.ui.favorite.FavoriteActivity
 import com.dicoding.githubuserapp.ui.setting.SettingActivity
 import com.dicoding.githubuserapp.ui.setting.SettingViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import java.util.Locale
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "setting")
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var searchEditText: TextInputEditText
     private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -120,13 +119,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUsers(users: ArrayList<UsersItem>) {
-        binding.rvUsers.adapter = MainUsersAdapter(users)
+        binding.rvUsers.adapter = UsersAdapter(users)
         binding.rvUsers.layoutManager = LinearLayoutManager(this)
     }
 
     private fun initSearch() {
+        searchEditText = findViewById(R.id.edReview)
         val searchLayout = findViewById<TextInputLayout>(R.id.inputLayout)
-        val searchEditText = findViewById<TextInputEditText>(R.id.edReview)
+
         searchLayout.setEndIconOnClickListener {
             searchEditText.text?.clear()
         }
@@ -134,7 +134,6 @@ class MainActivity : AppCompatActivity() {
         val rootView = window.decorView.rootView
         rootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             private var isKeyboardShowing = false
-            private val MIN_KEYBOARD_HEIGHT = 150 // adjust this value as needed
 
             override fun onGlobalLayout() {
                 val rect = Rect()
@@ -143,18 +142,18 @@ class MainActivity : AppCompatActivity() {
                 val screenHeight = rootView.height
                 val keypadHeight = screenHeight - rect.bottom
 
-                if (keypadHeight > screenHeight * 0.15) {
-                    isKeyboardShowing = true
+                isKeyboardShowing = if (keypadHeight > screenHeight * 0.15) {
+                    true
                 } else {
                     if (isKeyboardShowing) {
                         searchEditText.clearFocus()
                     }
-                    isKeyboardShowing = false
+                    false
                 }
             }
         })
 
-        searchEditText.setOnEditorActionListener { v, actionId, event ->
+        searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val userInput = searchEditText.text.toString()
                 onSubmit(userInput)

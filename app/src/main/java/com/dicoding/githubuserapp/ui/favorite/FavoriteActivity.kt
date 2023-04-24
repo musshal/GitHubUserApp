@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.githubuserapp.R
 import com.dicoding.githubuserapp.data.remote.response.UsersItem
 import com.dicoding.githubuserapp.databinding.ActivityFavoriteBinding
-import com.dicoding.githubuserapp.utils.FavoriteViewModelFactory
+import com.dicoding.githubuserapp.helper.FavoriteViewModelFactory
 import com.dicoding.githubuserapp.ui.setting.SettingActivity
 
 class FavoriteActivity : AppCompatActivity() {

@@ -12,10 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.githubuserapp.R
 import com.dicoding.githubuserapp.data.remote.response.UsersItem
+import com.dicoding.githubuserapp.ui.adapter.UsersAdapter
 
 class FollowingFragment : Fragment() {
 
-    private lateinit var adapter: DetailUsersAdapter
+    private lateinit var adapter: UsersAdapter
     private lateinit var recyclerView: RecyclerView
     private val followingViewModel by viewModels<FollowingViewModel>()
 
@@ -40,7 +41,7 @@ class FollowingFragment : Fragment() {
     }
 
     private fun initRecyclerView(view: View) {
-        adapter = DetailUsersAdapter(arrayListOf())
+        adapter = UsersAdapter(arrayListOf())
         recyclerView = view.findViewById(R.id.rv_github_user_followings)
 
         recyclerView.layoutManager = LinearLayoutManager(context)

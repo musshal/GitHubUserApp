@@ -1,4 +1,4 @@
-package com.dicoding.githubuserapp.ui.main
+package com.dicoding.githubuserapp.ui.adapter
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -18,8 +18,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainUsersAdapter(private val users: ArrayList<UsersItem>)
-    : RecyclerView.Adapter<MainUsersAdapter.ViewHolder>() {
+class UsersAdapter(private val users: ArrayList<UsersItem>)
+    : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val civUser: CircleImageView = view.findViewById(R.id.civ_user)
@@ -77,4 +77,12 @@ class MainUsersAdapter(private val users: ArrayList<UsersItem>)
     }
 
     override fun getItemCount(): Int = users.size
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setData(usersData: ArrayList<UsersItem>) {
+        users.clear()
+        users.addAll(usersData)
+
+        notifyDataSetChanged()
+    }
 }

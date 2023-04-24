@@ -1,4 +1,4 @@
-package com.dicoding.githubuserapp.utils
+package com.dicoding.githubuserapp.helper
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
