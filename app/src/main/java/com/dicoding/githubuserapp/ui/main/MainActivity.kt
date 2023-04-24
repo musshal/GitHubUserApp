@@ -125,8 +125,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initSearch() {
-        val searchEditText = findViewById<TextInputEditText>(R.id.edReview)
         val searchLayout = findViewById<TextInputLayout>(R.id.inputLayout)
+        val searchEditText = findViewById<TextInputEditText>(R.id.edReview)
         searchLayout.setEndIconOnClickListener {
             searchEditText.text?.clear()
         }
